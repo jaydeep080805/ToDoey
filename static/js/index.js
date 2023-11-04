@@ -1,0 +1,1 @@
+$(".left-section-desktop-navbar ul").css("background-color", "green")

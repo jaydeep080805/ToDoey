@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+<h1>To Doey</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="form-card">
+        <form class="form-container">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-element">
+                {{ form.task.label }}
+                {{ form.task(class_="form-element-styling") }}
+            </div>
+            
+            <div class="form-element">
+                {{ form.due_date.label }}
+                {{ form.due_date(class_="form-element-styling") }}
+            </div>
+            
+            <div class="form-element">
+                {{ form.submit(class_="submit-button btn") }}
+            </div>
+        </form>
+    </div>
+
+    {% if task_list: %}
+    <h1>poop</h1>
+    {% endif %}
+
+    {% endblock %}
