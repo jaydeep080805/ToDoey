@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="form-card" id="sign-up-form-card">
-        <div class="form-container" id="sign-up-form-container">
+        <form class="form-container" id="sign-up-form-container" method="post">
             {{ form.hidden_tag() }}
 
             {{ form.email.label }}
@@ -16,6 +16,6 @@
 
             {{ form.submit(class_="submit-button btn") }}
             
-        </div>
+        </form>
     </div>
 {% endblock %}

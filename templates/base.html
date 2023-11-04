@@ -38,6 +38,13 @@
             </div>
         </nav>
 
+        <!-- to display flask flash() -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flashes {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
         <!-- main container
         holds all page elements -->
         <div class="container">
