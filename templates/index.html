@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="form-card">
-        <form class="form-container">
+        <form class="form-container" method="post">
             {{ form.hidden_tag() }}
             
             <div class="form-element">
@@ -17,6 +17,11 @@
             <div class="form-element">
                 {{ form.due_date.label }}
                 {{ form.due_date(class_="form-element-styling") }}
+            </div>
+
+            <div class="form-element">
+                {{ form.category.label }}
+                {{ form.category(class_="form-element-styling") }}
             </div>
             
             <div class="form-element">

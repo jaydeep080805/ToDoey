@@ -5,6 +5,10 @@
     --grey-navbar: #333;
     --grey-navbar-hover: #222222;
 
+    --form-text-col: #fff;
+    --form-element-background: #444444;
+    --form-background: #222;
+
     --background-col: #121212;
 }
 
@@ -54,55 +58,64 @@ body {
     height: 75vh;
 }
 
+/* the main form card that holds all the form elements */
 .form-card {
     border: solid 4px var(--pink);
     border-radius: 10px;
     border-style: double;
 
+    background-color: var(--form-background);
+
     padding: 25px;
     box-shadow: 5px 5px var(--pink);
     margin-top: 10px;
 
-    width: 350px;
+    width: 500px;
+    height: 300px;
 }
 
+/* styling for the container that holds all the form elements
+this just allows the container to span the whole length of the card but have some space around it*/
 .form-container {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    height: 100%;
 }
 
+/* styling for the content of the forms (form.task.label) etc 
+the elements have their label and content together so its spaced out evenly*/
 .form-element {
-    padding: 5px 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    height: max-content;
+    justify-content: space-evenly;
 }
 
-.form-element-styling {
-    border-radius: 5px;
-    background-color: #888888;
-    color: white;
+.form-element-styling { 
+    border-radius: 8px;
+    background-color: var(--form-element-background);
+    color: var(--form-text-col);
 }
 
 .submit-button {
     background-color: var(--pink);
-    color: white;
-    transform: translate(100px, 10px);
+    color: var(--form-text-col);
     margin: 0 auto;
+    width: 50%;
 }
 
 .submit-button:hover {
     background-color: var(--pink-hover);
-    color: white;
+    color: var(--form-text-col);
 }
 
 #togglePassword {
     opacity: 0.5;
-    transform: translate(270px, -28px);
     width: fit-content;
+    align-self: flex-end;
+    transform: translate(-8px, -32px);
+    color: var(--form-text-col);
 }
 
 #togglePassword:hover {
