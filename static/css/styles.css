@@ -76,7 +76,7 @@ body {
 .form-element {
     padding: 5px 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
@@ -97,6 +97,25 @@ body {
 .submit-button:hover {
     background-color: var(--pink-hover);
     color: white;
+}
+
+#togglePassword {
+    opacity: 0.5;
+    transform: translate(270px, -28px);
+    width: fit-content;
+}
+
+#togglePassword:hover {
+    opacity: 1;
+}
+
+#togglePassword.active {
+    opacity: 1;
+}
+
+.form-text {
+    font-size: 14px;
+    color: var(--pink);
 }
 
 footer {
