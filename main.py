@@ -12,8 +12,10 @@ from flask_login import (
     login_required,
 )
 from flask_wtf.csrf import CSRFProtect
+from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
+from datetime import date
 
 load_dotenv()
 
@@ -26,6 +28,7 @@ app.secret_key = environ["SECRET_KEY"]
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tasks.db"
 db.init_app(app)
 csrf = CSRFProtect(app)
+migrate = Migrate(app, db)
 
 
 class TaskDataBase(db.Model):
@@ -43,6 +46,8 @@ class UserInformation(db.Model, UserMixin):
     name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(), nullable=False)
     password = db.Column(db.String(), nullable=False)
+    profile_pic = db.Column(db.String(), nullable=True)
+    creation_date = db.Column(db.Date, default=date.today())
     tasks = db.relationship(
         "TaskDataBase", order_by=TaskDataBase.due_date, back_populates="user"
     )
