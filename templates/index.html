@@ -1,50 +1,40 @@
-{% extends "base.html" %}
-
-{% block title %}
+{% extends "base.html" %} {% block title %}
 <h1>To Doey</h1>
-{% endblock %}
-
-{% block content %}
-    <div class="form-card">
-        <form class="form-container" method="post">
-            {{ form.hidden_tag() }}
-            
-            <div class="form-element">
-                {{ form.task.label }}
-                {{ form.task(class_="form-element-styling") }}
-            </div>
-            
-            <div class="form-element">
-                {{ form.due_date.label }}
-                {{ form.due_date(class_="form-element-styling") }}
-            </div>
-
-            <div class="form-element">
-                {{ form.category.label }}
-                {{ form.category(class_="form-element-styling") }}
-            </div>
-            
-            <div class="form-element">
-                {{ form.submit(class_="submit-button btn") }}
-            </div>
-        </form>
-    </div>
-
-
-    {% if task_list: %}
-        <h1 class="task-list-heading">Task List:</h1>
-        <div class="task-list-container">
-            {% for task in task_list %}
-                <div class="task-card">
-                    <input type="checkbox" name="checkbox-for-tasks" id="task-checkbox">
-                    <label for="task-checkbox">{{task.task}}</label>
-                    <p>{{task.due_date}}</p>
-                    <!-- <p>{{task.category}}</p> -->
-                </div>
-            {% endfor %}
+{% endblock %} {% block content %}
+<div class="form-card">
+    <form class="form-container" method="post">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-element">
+            {{ form.task.label }} {{ form.task(class_="form-element-styling") }}
         </div>
-    {% endif %}
+        
+        <div class="form-element">
+            {{ form.due_date.label }} {{ form.due_date(class_="form-element-styling")
+        }}
+    </div>
+    
+    <div class="form-element">
+        {{ form.category.label }} {{ form.category(class_="form-element-styling")
+    }}
+</div>
 
+<div class="form-element">
+    {{ form.submit(class_="submit-button btn") }}
+</div>
+</form>
+</div>
 
-
-    {% endblock %}
+{% if task_list: %}
+<h1 class="task-list-heading">Task List:</h1>
+<div class="task-list-container">
+    {% for task in task_list %}
+    <div class="task-card">
+        <input type="checkbox" name="checkbox-for-tasks" class="task-checkbox" />
+        <label for="task-checkbox">{{task.task}}</label>
+        <p>{{task.due_date}}</p>
+        <!-- <p>{{task.category}}</p> -->
+    </div>
+    {% endfor %}
+</div>
+{% endif %} {% endblock %}

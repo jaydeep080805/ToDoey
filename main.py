@@ -86,12 +86,12 @@ def home():
 
 @app.route("/about")
 def about():
-    return
+    return render_template("about.html")
 
 
 @app.route("/profile")
 def profile():
-    return
+    return render_template("profile.html")
 
 
 @app.route("/sign-up", methods=["GET", "POST"])

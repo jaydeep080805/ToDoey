@@ -1,15 +1,21 @@
 :root {
     --pink: #ff69b4;
     --pink-hover: #e04a95;
-
+    
     --grey-navbar: #333;
     --grey-navbar-hover: #222222;
-
+    
     --form-text-col: #fff;
     --form-element-background: #444444;
     --form-background: #222;
-
+    
     --background-col: #121212;
+}
+
+body {
+    background-color: var(--background-col);
+    color: var(--pink);
+    font-family: "Montserrat", sans-serif;
 }
 
 .flashes {
@@ -19,7 +25,7 @@
     margin: 20px auto;
     width: 20%;
     height: 50px;
-
+    
     border-radius: 5px;
     color: white;
 }
@@ -54,7 +60,7 @@
     align-items: center;
 }
 
-.navbar-styling a{
+.navbar-styling a {
     padding: 10px 15px;
     text-decoration: none;
     color: var(--pink);
@@ -66,10 +72,8 @@
     cursor: pointer;
 }
 
-body {
-    background-color: var(--background-col);
-    color: var(--pink);
-    font-family: 'Montserrat', sans-serif;
+.navbar-active {
+    background-color: var(--grey-navbar-hover);
 }
 
 .container {
@@ -77,7 +81,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: 75vh;
+    min-height: 100vh;
     margin-top: 20px;
 }
 
@@ -86,13 +90,13 @@ body {
     border: solid 4px var(--pink);
     border-radius: 10px;
     border-style: double;
-
+    
     background-color: var(--form-background);
-
+    
     padding: 25px;
     box-shadow: 5px 5px var(--pink);
     margin-top: 10px;
-
+    
     width: 500px;
     height: 300px;
 }
@@ -115,7 +119,7 @@ the elements have their label and content together so its spaced out evenly*/
     justify-content: space-evenly;
 }
 
-.form-element-styling { 
+.form-element-styling {
     border-radius: 8px;
     background-color: var(--form-element-background);
     color: var(--form-text-col);
@@ -172,7 +176,7 @@ the elements have their label and content together so its spaced out evenly*/
     
     padding: 20px;
     /* margin-top: 20px; */
-
+    
     transition: ease 0.3s;
 }
 
@@ -180,16 +184,68 @@ the elements have their label and content together so its spaced out evenly*/
     background-color: rgb(246, 84, 225);
     color: white;
     border-color: white;
-
+    
     box-shadow: -5px -5px var(--pink);
 }
 
-
 footer {
-    height: 10vh;
-    text-align: center;
     background-color: var(--grey-navbar);
-    position: absolute;
     bottom: 0;
     width: 100%;
+    min-height: 20rem;
+}
+
+.footer-list-title {
+    font-size: 2rem;
+    color: white;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 3fr);
+}
+
+.footer-col {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+    margin-top: 10%;
+    text-align: left;
+}
+
+.footer-col hr {
+    width: 35%;
+    transform: translate(20px, -16px);
+}
+
+.footer-list-item {
+    color: rgb(170, 170, 170);
+    width: min-content;
+    transition: ease 0.3s;
+    cursor: pointer;
+}
+
+.footer-list-item:hover {
+    transform: translate(10px, 0);
+    color: white;
+}
+
+ul .bi {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 10px 10px 0;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    transition: all 0.5s ease;
+}
+
+ul .bi:hover {
+    color: #24262b;
+    background-color: #ffffff;
 }
