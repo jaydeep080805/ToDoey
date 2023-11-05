@@ -87,7 +87,13 @@ def home():
     if current_user.is_authenticated:
         tasks = current_user.tasks
 
-    return render_template("index.html", form=form, task_list=tasks)
+    # create a list of tasks that are due today
+    due_today_tasks = []
+    for task in tasks:
+        if task.due_date == date.today():
+            due_today_tasks.append(task)
+
+    return render_template("index.html", form=form, task_list=tasks, due_today_tasks=due_today_tasks)
 
 
 @app.route("/about")

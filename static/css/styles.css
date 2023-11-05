@@ -124,7 +124,7 @@ the elements have their label and content together so its spaced out evenly*/
 }
 
 .form-element-styling {
-    border-radius: 8px;
+    border-radius: 2px;
     background-color: var(--form-element-background);
     color: var(--form-text-col);
 }
@@ -165,7 +165,7 @@ the elements have their label and content together so its spaced out evenly*/
 .task-list-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 15px;
+    grid-gap: 25px;
     padding: 10px;
     overflow: auto;
 }
@@ -176,10 +176,9 @@ the elements have their label and content together so its spaced out evenly*/
 
 .task-card {
     border: 2px solid var(--pink);
-    border-radius: 8px;
+    border-radius: 4px;
     
     padding: 20px;
-    /* margin-top: 20px; */
     
     transition: ease 0.3s;
 }
@@ -190,6 +189,10 @@ the elements have their label and content together so its spaced out evenly*/
     border-color: white;
     
     box-shadow: -5px -5px var(--pink);
+}
+
+.task-label {
+    transform: translate(0, 15px);
 }
 
 footer {
@@ -263,9 +266,15 @@ img {
 .profile-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: flex-end;
     gap: 10px;
+}
+
+
+.profile-picture {
+    height: 100px;
+    width: 100px;
 }
 
 .profile-info p {

@@ -7,11 +7,16 @@
 
 {% block content %}
     <div class="profile-container">
-        <div class="profile-pic-and-name">
-            <img src="{{ url_for('static', filename='static/images/Screenshot (28).png') }}">
-            {{ user_info.name }}
+        <div class="profile-info">
+            <img src="{{ url_for('static', filename='images/default.png') }}" class="profile-picture">
+            <button type="button" class="btn btn-primary change-email-button"><i class="bi bi-envelope button-icon"></i>Change Profile Picture</button>
         </div>
         
+        <div class="profile-info">
+            {{ user_info.name }}
+            <button type="button" class="btn btn-primary change-email-button"><i class="bi bi-envelope button-icon"></i>Change Name</button>
+        </div>
+
         <div class="profile-info">
             {{ user_info.email }}
             <button type="button" class="btn btn-primary change-email-button"><i class="bi bi-envelope button-icon"></i>Change Email</button>
