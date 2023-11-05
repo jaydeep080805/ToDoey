@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from forms import TaskForm, SignUpForm, LoginForm
 from os import environ
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import current_user, LoginManager, login_user, logout_user, UserMixin
+from flask_login import current_user, LoginManager, login_user, logout_user, UserMixin, login_required
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
@@ -24,6 +24,7 @@ class TaskDataBase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(), nullable=False)
     due_date = db.Column(db.Date, nullable=True)
+    category = db.Column(db.String())
 
 
 class UserInformation(db.Model, UserMixin):
@@ -43,6 +44,12 @@ def load_user(user_id):
 @app.route("/", methods=["GET", "POST"])
 def home():
     form = TaskForm()
+
+    if form.validate_on_submit():
+        print(form.task.data)
+        print(form.due_date.data)
+        print(form.task.data)
+
     return render_template("index.html", form=form, task_list=[])
 
 
@@ -87,7 +94,7 @@ def sign_up():
         db.session.commit()
 
         flash("Successfully Created Account!", "success")
-        return redirect(url_for("sign_up"))
+        return redirect(url_for("home"))
 
     return render_template("sign_up.html", form=form)
 
@@ -103,18 +110,23 @@ def login():
 
         # query the database to see if the email already exists in there
         email_from_database = UserInformation.query.filter_by(email=email_from_form).first()
-        check_password = check_password_hash(email_from_database.password, password_from_form)
 
-        # check if all the details are correct
-        if email_from_form == email_from_database.email and check_password == True:
-            flash("Successfully Logged In", "success")
-            login_user(email_from_database)
-            return redirect(url_for("home"))
-        
+        try:
+            check_password = check_password_hash(email_from_database.password, password_from_form)
+            # check if all the details are correct
+            if email_from_form == email_from_database.email and check_password == True:
+                flash("Successfully Logged In", "success")
+                login_user(email_from_database)
+                return redirect(url_for("home"))
+        except:
+            flash("Incorrect Login Data", "error")
+            return redirect(url_for("login"))        
+
 
     return render_template("login.html", form=form)
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("home"))
