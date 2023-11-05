@@ -29,11 +29,11 @@
             </div>
 
             <div class="right-section-desktop-navbar navbar-styling">
-                {% if current_user.athenticated %}
-                    <a href="{{ url_for('home') }}">log out</a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('logout') }}">log out</a>
                 {% else %}
                     <a href="{{ url_for('sign_up') }}">Sign Up</a>
-                    <a href="">Log In</a>
+                    <a href="{{ url_for('login') }}">Log In</a>
                 {% endif %}
             </div>
         </nav>

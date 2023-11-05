@@ -12,3 +12,8 @@ class SignUpForm(FlaskForm):
     email = EmailField("Email", [DataRequired()])
     password = PasswordField("Password", [DataRequired()])
     submit = SubmitField("Submit")
+
+class LoginForm(FlaskForm):
+    email = EmailField("Email", [DataRequired()])
+    password = PasswordField("Password", [DataRequired()])
+    submit = SubmitField("Submit")
