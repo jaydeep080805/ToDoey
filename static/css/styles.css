@@ -77,7 +77,8 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 75vh;
+    min-height: 75vh;
+    margin-top: 20px;
 }
 
 /* the main form card that holds all the form elements */
@@ -152,6 +153,37 @@ the elements have their label and content together so its spaced out evenly*/
     font-size: 14px;
     color: var(--pink);
 }
+
+.task-list-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+    padding: 10px;
+    overflow: auto;
+}
+
+.task-list-heading {
+    margin: 20px 0;
+}
+
+.task-card {
+    border: 2px solid var(--pink);
+    border-radius: 8px;
+    
+    padding: 20px;
+    /* margin-top: 20px; */
+
+    transition: ease 0.3s;
+}
+
+.task-card:hover {
+    background-color: rgb(246, 84, 225);
+    color: white;
+    border-color: white;
+
+    box-shadow: -5px -5px var(--pink);
+}
+
 
 footer {
     height: 10vh;

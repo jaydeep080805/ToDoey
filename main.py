@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from forms import TaskForm, SignUpForm, LoginForm
 from os import environ
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
 from flask_login import (
     current_user,
     LoginManager,
@@ -28,17 +29,22 @@ csrf = CSRFProtect(app)
 
 
 class TaskDataBase(db.Model):
-    # link to the user database to link the task list
+    # TODO link to the user database to link the task list
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey("user_information.id"), nullable=False)
     task = db.Column(db.String(), nullable=False)
     due_date = db.Column(db.Date, nullable=True)
     category = db.Column(db.String())
+    user = db.relationship("UserInformation", back_populates="tasks")
 
 
 class UserInformation(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(), nullable=False)
     password = db.Column(db.String(), nullable=False)
+    tasks = db.relationship(
+        "TaskDataBase", order_by=TaskDataBase.due_date, back_populates="user"
+    )
 
 
 with app.app_context():
@@ -60,6 +66,7 @@ def home():
         print(form.category.data)
 
         new_task = TaskDataBase(
+            user_id=current_user.id,
             task=form.task.data,
             due_date=form.due_date.data,
             category=form.category.data,
@@ -70,9 +77,11 @@ def home():
         flash("Task Added Successfully", "success")
         return redirect(url_for("home"))
 
-    tasks = TaskDataBase.query.filter_by()
+    tasks = []
+    if current_user.is_authenticated:
+        tasks = current_user.tasks
 
-    return render_template("index.html", form=form, task_list=[])
+    return render_template("index.html", form=form, task_list=tasks)
 
 
 @app.route("/about")
