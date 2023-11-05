@@ -2,7 +2,14 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from forms import TaskForm, SignUpForm, LoginForm
 from os import environ
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import current_user, LoginManager, login_user, logout_user, UserMixin, login_required
+from flask_login import (
+    current_user,
+    LoginManager,
+    login_user,
+    logout_user,
+    UserMixin,
+    login_required,
+)
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
@@ -21,6 +28,7 @@ csrf = CSRFProtect(app)
 
 
 class TaskDataBase(db.Model):
+    # link to the user database to link the task list
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(), nullable=False)
     due_date = db.Column(db.Date, nullable=True)
@@ -36,6 +44,7 @@ class UserInformation(db.Model, UserMixin):
 with app.app_context():
     db.create_all()
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return UserInformation.query.get(int(user_id))
@@ -48,7 +57,20 @@ def home():
     if form.validate_on_submit():
         print(form.task.data)
         print(form.due_date.data)
-        print(form.task.data)
+        print(form.category.data)
+
+        new_task = TaskDataBase(
+            task=form.task.data,
+            due_date=form.due_date.data,
+            category=form.category.data,
+        )
+        db.session.add(new_task)
+        db.session.commit()
+
+        flash("Task Added Successfully", "success")
+        return redirect(url_for("home"))
+
+    tasks = TaskDataBase.query.filter_by()
 
     return render_template("index.html", form=form, task_list=[])
 
@@ -109,10 +131,14 @@ def login():
         password_from_form = form.password.data
 
         # query the database to see if the email already exists in there
-        email_from_database = UserInformation.query.filter_by(email=email_from_form).first()
+        email_from_database = UserInformation.query.filter_by(
+            email=email_from_form
+        ).first()
 
         try:
-            check_password = check_password_hash(email_from_database.password, password_from_form)
+            check_password = check_password_hash(
+                email_from_database.password, password_from_form
+            )
             # check if all the details are correct
             if email_from_form == email_from_database.email and check_password == True:
                 flash("Successfully Logged In", "success")
@@ -120,10 +146,10 @@ def login():
                 return redirect(url_for("home"))
         except:
             flash("Incorrect Login Data", "error")
-            return redirect(url_for("login"))        
-
+            return redirect(url_for("login"))
 
     return render_template("login.html", form=form)
+
 
 @app.route("/logout")
 @login_required
