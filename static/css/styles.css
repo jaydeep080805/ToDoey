@@ -81,8 +81,12 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 75vh;
     margin-top: 20px;
+}
+
+#ToDoey {
+    text-decoration: line-through;
 }
 
 /* the main form card that holds all the form elements */
@@ -248,4 +252,31 @@ ul .bi {
 ul .bi:hover {
     color: #24262b;
     background-color: #ffffff;
+}
+
+img {
+    width: 250px;
+    border-radius: 100%;
+    padding: 20px;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.profile-info p {
+    float: left;
+}
+
+.change-email-button {
+    margin-left: 15px;
+}
+
+.button-icon {
+    margin-right: 4px;
+    padding-bottom: 50px;
 }

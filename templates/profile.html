@@ -1,2 +1,26 @@
 {% extends "base.html" %}
 
+{% block title %}
+    <h1>Profile</h1>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <div class="profile-container">
+        <div class="profile-pic-and-name">
+            <img src="../static/images/Screenshot (28).png">
+            {{ user_info.name }}
+        </div>
+        
+        <div class="profile-info">
+            {{ user_info.email }}
+            <button type="button" class="btn btn-primary change-email-button"><i class="bi bi-envelope button-icon"></i>Change Email</button>
+        </div>
+
+        <div class="profile-info">
+            <p>********</p>
+            <button type="button" class="btn btn-primary change-email-button"><i class="bi bi-lock button-icon"></i></i>Change Password</button>
+        </div>
+    </div>
+
+{% endblock %}

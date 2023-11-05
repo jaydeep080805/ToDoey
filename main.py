@@ -40,6 +40,7 @@ class TaskDataBase(db.Model):
 
 class UserInformation(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(), nullable=False)
     password = db.Column(db.String(), nullable=False)
     tasks = db.relationship(
@@ -91,7 +92,8 @@ def about():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    user_info = UserInformation.query.filter_by(email=current_user.email).first()
+    return render_template("profile.html", user_info=user_info)
 
 
 @app.route("/sign-up", methods=["GET", "POST"])
@@ -100,17 +102,20 @@ def sign_up():
 
     if form.validate_on_submit():
         # grab the information from the form
+        name_to_add = form.name.data
         email_to_add = form.email.data
         password_to_add = generate_password_hash(
             form.password.data, method="pbkdf2:sha256", salt_length=16
         )
 
         # query the database to see if the email already exists in there
-        check_email = UserInformation.query.filter_by(email=email_to_add).first()
+        email_from_database = UserInformation.query.filter_by(
+            email=email_to_add
+        ).first()
 
         try:
             # if the email does exist then send a flash saying it exists
-            if check_email.email == email_to_add:
+            if email_from_database.email == email_to_add:
                 flash("Email Already Exists!", "error")
                 return redirect(url_for("sign_up"))
         except:
@@ -118,13 +123,19 @@ def sign_up():
 
         # make a new object and add it to the database
         user_login_details = UserInformation(
-            email=email_to_add, password=password_to_add
+            name=name_to_add, email=email_to_add, password=password_to_add
         )
 
         db.session.add(user_login_details)
         db.session.commit()
 
+        email_from_database = UserInformation.query.filter_by(
+            email=email_to_add
+        ).first()
+
         flash("Successfully Created Account!", "success")
+        login_user(email_from_database)
+
         return redirect(url_for("home"))
 
     return render_template("sign_up.html", form=form)

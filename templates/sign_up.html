@@ -5,6 +5,9 @@
         <form class="form-container" id="sign-up-form-container" method="post">
             {{ form.hidden_tag() }}
 
+            {{ form.name.label }}
+            {{ form.name(class_="form-element-styling") }}
+
             {{ form.email.label }}
             {{ form.email(class_="form-element-styling") }}
             
