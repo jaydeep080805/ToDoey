@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from forms import TaskForm, SignUpForm, LoginForm
 from os import environ
 from flask_sqlalchemy import SQLAlchemy
@@ -15,13 +15,15 @@ from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
-from datetime import date
+from datetime import date, datetime
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
 db = SQLAlchemy()
 login_manager = LoginManager(app)
+# CORS(app)
 
 # app config
 app.secret_key = environ["SECRET_KEY"]
@@ -32,7 +34,7 @@ migrate = Migrate(app, db)
 
 
 class TaskDataBase(db.Model):
-    # TODO link to the user database to link the task list
+    # TODO add a description option so you can make a popout menu to edit the task
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey("user_information.id"), nullable=False)
     task = db.Column(db.String(), nullable=False)
@@ -66,15 +68,22 @@ def load_user(user_id):
 def home():
     form = TaskForm()
 
-    if form.validate_on_submit():
+    if request.method == "POST":
+        # for testing only
         print(form.task.data)
         print(form.due_date.data)
-        print(form.category.data)
+        # print(form.category.data)
+
+        due_date_provided = form.due_date.data
+        if due_date_provided == None:
+            today = datetime.today()
+            # print(type(today))
+            due_date_provided = today
 
         new_task = TaskDataBase(
             user_id=current_user.id,
             task=form.task.data,
-            due_date=form.due_date.data,
+            due_date=due_date_provided,
             category=form.category.data,
         )
         db.session.add(new_task)
@@ -83,17 +92,43 @@ def home():
         flash("Task Added Successfully", "success")
         return redirect(url_for("home"))
 
-    tasks = []
+    other_tasks = []
+    due_today_tasks = []
     if current_user.is_authenticated:
+        # get all the tasks associated with that user
         tasks = current_user.tasks
 
-    # create a list of tasks that are due today
-    due_today_tasks = []
-    for task in tasks:
-        if task.due_date == date.today():
-            due_today_tasks.append(task)
+        # filter the tasks by due date
+        other_tasks = [task for task in tasks if task.due_date != date.today()]
+        due_today_tasks = [task for task in tasks if task.due_date == date.today()]
 
-    return render_template("index.html", form=form, task_list=tasks, due_today_tasks=due_today_tasks)
+    return render_template(
+        "index.html", form=form, task_list=other_tasks, due_today_tasks=due_today_tasks
+    )
+
+
+@app.route("/update_task", methods=["POST"])
+@csrf.exempt
+def update_task():
+    # get the data from the ajax post
+    data = request.get_json()
+    if data:
+        # get the task id
+        task_id = data.get("task_id")
+        # print(data["task_id"])
+
+        task_to_delete = TaskDataBase.query.get(task_id)
+        try:
+            db.session.delete(task_to_delete)
+            db.session.commit()
+            return jsonify({"status": "success"}), 200
+        except:
+            print("task not found")
+            return jsonify({"status": "Error"})
+
+    else:
+        flash("An error has occured", "error")
+        return (jsonify({"status": "error", "message": "No data received"}),)
 
 
 @app.route("/about")
