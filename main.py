@@ -16,14 +16,12 @@ from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from datetime import date, datetime
-from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
 db = SQLAlchemy()
 login_manager = LoginManager(app)
-# CORS(app)
 
 # app config
 app.secret_key = environ["SECRET_KEY"]
