@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+<div class="form-card" id="sign-up-form-card">
+  <form class="form-container" id="sign-up-form-container" method="post">
+    {{ form.hidden_tag() }} {{ form.name.label }} {{
+    form.name(class_="form-element-styling") }} {{ form.email.label }} {{
+    form.email(class_="form-element-styling") }} {{ form.password.label }} {{
+    form.password(class_="form-element-styling", id="password") }}
+    <i class="bi bi-eye-slash" id="togglePassword"></i>
+
+    <p class="form-text">
+      Already got an account?
+      <a href="{{ url_for('main.login') }}">Login here</a>
+    </p>
+
+    {{ form.submit(class_="submit-button btn") }}
+  </form>
+</div>
+{% endblock %}

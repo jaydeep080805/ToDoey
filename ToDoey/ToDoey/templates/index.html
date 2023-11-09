@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block title %}
+<h1 id="ToDoey">To Doey</h1>
+{% endblock %} {% block content %}
+<div class="form-card">
+  <form class="form-container" method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="form-element">
+      {{ form.task.label }} {{ form.task(class_="form-element-styling") }}
+    </div>
+
+    <div class="form-element">
+      {{ form.due_date.label }} {{
+      form.due_date(class_="form-element-styling")}}
+    </div>
+
+    <div class="form-element">
+      {{ form.category.label }} {{
+      form.category(class_="form-element-styling")}}
+    </div>
+
+    <div class="form-element">
+      {{ form.submit(class_="submit-button btn") }}
+    </div>
+  </form>
+</div>
+
+<h1 class="task-list-heading">Task List:</h1>
+<div class="task-list-container">
+  {% if due_today_tasks %} {% for task in due_today_tasks %}
+  <h1 class="task-list-heading" id="due-today-heading">Due Today:</h1>
+  <div class="task-card">
+    <input
+      type="checkbox"
+      name="checkbox-for-tasks"
+      class="task-checkbox"
+      data-id="{{ task.id }}"
+    />
+    <label for="task-checkbox">{{task.task}}</label>
+    <p class="task-label">Due: {{task.due_date}}</p>
+    <!-- <p>{{task.category}}</p> -->
+  </div>
+  <br />
+
+  {% endfor %} {% endif %} {% if task_list: %} {% for task in task_list %}
+  <div class="task-card">
+    <input
+      type="checkbox"
+      name="checkbox-for-tasks"
+      class="task-checkbox"
+      data-id="{{ task.id }}"
+    />
+    <label for="task-checkbox">{{task.task}}</label>
+    <p class="task-label">Due: {{task.due_date}}</p>
+    <!-- <p>{{task.category}}</p> -->
+  </div>
+  {% endfor %} {% endif %}
+</div>
+{% endblock %}
