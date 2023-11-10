@@ -71,7 +71,6 @@ def home():
 
 
 @main.route("/update_task", methods=["POST"])
-@csrf.exempt
 def update_task():
     # get the data from the ajax post
     data = request.get_json()

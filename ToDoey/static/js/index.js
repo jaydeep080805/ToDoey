@@ -31,6 +31,9 @@ $(document).ready(function () {
         url: "/update_task",
         type: "POST",
         contentType: "application/json",
+        headers: {
+          "X-CSRFToken": $("input[name='csrf_token']").val(), // Add this line
+        },
         data: JSON.stringify({
           task_id: taskId,
         }),
