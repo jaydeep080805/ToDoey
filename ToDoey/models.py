@@ -21,6 +21,7 @@ class UserInformation(db.Model, UserMixin):
     password = db.Column(db.String(), nullable=False)
     profile_pic = db.Column(db.String(), nullable=True)
     creation_date = db.Column(db.Date, default=date.today())
+    completed_tasks = db.Column(db.String(), nullable=True)
     tasks = db.relationship(
         "TaskDataBase", order_by=TaskDataBase.due_date, back_populates="user"
     )
