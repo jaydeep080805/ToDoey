@@ -1,16 +1,28 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
-from .forms import TaskForm, SignUpForm, LoginForm
-from .models import UserInformation, TaskDataBase
-from . import db, csrf
-from flask_login import login_user, current_user, login_required
+# imports
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    request,
+    flash,
+    jsonify,
+    current_app,
+)
 from flask_login import (
     current_user,
     login_user,
     logout_user,
     login_required,
+    AnonymousUserMixin,
 )
 from datetime import date, datetime
-from werkzeug.security import generate_password_hash, check_password_hash
+
+# custom imports
+from .forms import TaskForm, SignUpForm, LoginForm
+from .models import UserInformation, TaskDataBase
+from . import db, csrf
+from .utils import hash_password, verify_password
 
 
 main = Blueprint("main", __name__)
@@ -20,29 +32,36 @@ main = Blueprint("main", __name__)
 def home():
     form = TaskForm()
 
-    if request.method == "POST":
-        # for testing only
-        print(form.task.data)
-        print(form.due_date.data)
-        # print(form.category.data)
+    try:
+        if request.method == "POST":
+            # for testing only
+            current_app.logger.debug(form.task.data)
+            current_app.logger.debug(form.due_date.data)
+            current_app.logger.debug(form.category.data)
 
-        due_date_provided = form.due_date.data
-        if due_date_provided == None:
-            today = datetime.today()
-            # print(type(today))
-            due_date_provided = today
+            due_date_provided = form.due_date.data
+            if due_date_provided == None:
+                today = datetime.today()
+                due_date_provided = today
 
-        new_task = TaskDataBase(
-            user_id=current_user.id,
-            task=form.task.data,
-            due_date=due_date_provided,
-            category=form.category.data,
-        )
-        db.session.add(new_task)
-        db.session.commit()
+            new_task = TaskDataBase(
+                user_id=current_user.id,
+                task=form.task.data,
+                due_date=due_date_provided,
+                category=form.category.data,
+            )
+            db.session.add(new_task)
+            db.session.commit()
 
-        flash("Task Added Successfully", "success")
-        return redirect(url_for("main.home"))
+            flash("Task Added Successfully", "success")
+            return redirect(url_for("main.home"))
+    except AttributeError as e:
+        current_app.logger.error(f"Create Task error (user not logged in): {e}")
+        flash("Must have an account to create task", "error")
+        return redirect(url_for("main.sign_up"))
+
+    except Exception as e:
+        current_app.logger.error(f"Create Task error (Unknown): {e}")
 
     other_tasks = []
     due_today_tasks = []
@@ -62,9 +81,6 @@ def home():
             if task.due_date == date.today() and task.completed != True
         ]
 
-    for task in other_tasks:
-        print(task.completed)
-
     return render_template(
         "index.html", form=form, task_list=other_tasks, due_today_tasks=due_today_tasks
     )
@@ -77,15 +93,15 @@ def update_task():
     if data:
         # get the task id
         task_id = data.get("task_id")
-        # print(data["task_id"])
 
         task_to_update = TaskDataBase.query.get(task_id)
         try:
             task_to_update.completed = True
             db.session.commit()
             return jsonify({"status": "success"}), 200
-        except:
-            print("task not found")
+        except Exception as e:
+            current_app.logger.error(f"Task update error (Unknown): {e}")
+            current_app.logger.error("Task not found for ID: " + str(task_id))
             return jsonify({"status": "Error"})
 
     else:
@@ -112,37 +128,38 @@ def sign_up():
         # grab the information from the form
         name_to_add = form.name.data
         email_to_add = form.email.data
-        password_to_add = generate_password_hash(
-            form.password.data, method="pbkdf2:sha256", salt_length=16
-        )
+        password_to_add = hash_password(form.password.data)
 
         # query the database to see if the email already exists in there
         email_from_database = UserInformation.query.filter_by(
             email=email_to_add
         ).first()
 
+        # if the email does exist then send a flash saying it exists
         try:
-            # if the email does exist then send a flash saying it exists
             if email_from_database.email == email_to_add:
                 flash("Email Already Exists!", "error")
-                return redirect(url_for("home.sign_up"))
-        except:
-            print("Email is valid")
+                return render_template("sign_up.html", form=form)
+        except AttributeError:
+            current_app.logger.info(
+                "if this prints then the email did not match one in the database and the users email is valid"
+            )
+        except Exception as e:
+            current_app.logger.error(f"Signup error (Unknown): {e}")
 
         # make a new object and add it to the database
         user_login_details = UserInformation(
-            name=name_to_add, email=email_to_add, password=password_to_add
+            name=name_to_add.title(), email=email_to_add, password=password_to_add
         )
 
-        db.session.add(user_login_details)
-        db.session.commit()
-
-        email_from_database = UserInformation.query.filter_by(
-            email=email_to_add
-        ).first()
+        try:
+            db.session.add(user_login_details)
+            db.session.commit()
+        except Exception as e:
+            current_app.logger.error(f"Database error (Unknown): {e}")
 
         flash("Successfully Created Account!", "success")
-        login_user(email_from_database)
+        login_user(user_login_details)
 
         return redirect(url_for("main.home"))
 
@@ -164,17 +181,22 @@ def login():
         ).first()
 
         try:
-            check_password = check_password_hash(
+            check_password = verify_password(
                 email_from_database.password, password_from_form
             )
             # check if all the details are correct
-            if email_from_form == email_from_database.email and check_password == True:
+            if email_from_database and check_password == True:
                 flash("Successfully Logged In", "success")
                 login_user(email_from_database)
                 return redirect(url_for("main.home"))
-        except:
-            flash("Incorrect Login Data", "error")
-            return redirect(url_for("main.login"))
+            else:
+                flash("Incorrect Password", "error")
+
+        except AttributeError:
+            flash("That email doesn't exist", "error")
+
+        except Exception as e:
+            current_app.logger.error(f"Login error (Unknown): {e}")
 
     return render_template("login.html", form=form)
 

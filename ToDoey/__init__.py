@@ -5,6 +5,8 @@ from os import environ
 from dotenv import load_dotenv
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
+import logging
+from logging.handlers import RotatingFileHandler
 
 load_dotenv()
 
@@ -23,6 +25,18 @@ def create_app():
     login_manager.init_app(app)
     csrf.init_app(app)
     migrate.init_app(app, db)
+
+    # Logging configuration
+    if not app.debug:
+        handler = RotatingFileHandler("app.log", maxBytes=10000, backupCount=1)
+        handler.setFormatter(
+            logging.Formatter(
+                "%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]"
+            )
+        )
+        handler.setLevel(logging.DEBUG)
+        app.logger.addHandler(handler)
+        app.logger.setLevel(logging.INFO)
 
     with app.app_context():
         db.create_all()
