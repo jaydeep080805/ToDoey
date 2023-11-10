@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
-<div class="form-card" id="sign-up-form-card">
-  <form class="form-container" id="sign-up-form-container" method="post">
+<div class="form-card">
+  <form class="form-container" method="post">
     {{ form.hidden_tag() }} {{ form.name.label }} {{
     form.name(class_="form-element-styling") }} {{ form.email.label }} {{
     form.email(class_="form-element-styling") }} {{ form.password.label }} {{

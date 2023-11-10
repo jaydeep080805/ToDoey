@@ -70,12 +70,12 @@ $(document).ready(function () {
   function updateMobileActiveNav() {
     var currentPage = $("body").attr("id"); // Get the unique ID of the body tag
     // Loop through all nav links
-    $(".movile-navbar a").each(function () {
+    $(".mobile-navbar a").each(function () {
       var navItem = $(this);
       // Check if the href of the nav item matches the current page
       if (navItem.attr("href") === window.location.pathname) {
         // Remove active class from all and add to the current one
-        $(".movile-navbar a").removeClass("navbar-active");
+        $(".mobile-navbar a").removeClass("navbar-active");
         navItem.addClass("navbar-active");
       }
     });
@@ -86,7 +86,7 @@ $(document).ready(function () {
 
   function showMobileNavBar() {
     // get the menu icon
-    var menuIcon = $(".movile-navbar i");
+    var menuIcon = $(".mobile-navbar i");
 
     menuIcon.click(function () {
       $(".mobile-navbar-container").toggleClass("mobile-navbar-container-show");

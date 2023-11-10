@@ -121,8 +121,8 @@ body {
     box-shadow: 5px 5px var(--pink);
     margin-top: 10px;
     
-    width: 500px;
-    height: 300px;
+    width: 50%;
+    height: 100%;
 }
 
 /* styling for the container that holds all the form elements
@@ -143,10 +143,15 @@ the elements have their label and content together so its spaced out evenly*/
     justify-content: space-evenly;
 }
 
+.form-element:nth-last-child(1) {
+    margin-top: 15px;
+}
+
 .form-element-styling {
     border-radius: 2px;
     background-color: var(--form-element-background);
     color: var(--form-text-col);
+    margin-bottom: 10px;
 }
 
 .submit-button {
@@ -165,7 +170,7 @@ the elements have their label and content together so its spaced out evenly*/
     opacity: 0.5;
     width: fit-content;
     align-self: flex-end;
-    transform: translate(-8px, -32px);
+    transform: translate(-8px, -38px);
     color: var(--form-text-col);
 }
 
@@ -311,29 +316,35 @@ img {
     padding-bottom: 50px;
 }
 
-.movile-navbar {
+.mobile-navbar {
     display: none;
 }
 
 @media (max-width: 648px) {
-    body {
-        width: 10%;
-    }
-
     .navbar-full {
         display: none;
     }
     
-    .movile-navbar {
+    .mobile-navbar {
         display: block;
         width: 100vw;
         background-color: var(--grey-navbar);
-        /* padding: 20px; */
+        padding: 10px;
+        font-size: 18px;
     }
 
-    .movile-navbar a {
+    .bi {
+        font-size: 26px;
+    }
+
+    .mobile-navbar-container a:nth-child(1) {
+        margin-top: 10px;
+    }
+
+    .mobile-navbar a {
         color: var(--pink);
         display: block;
+        padding: 5px 0;
     }
 
     .mobile-navbar-container {
@@ -342,5 +353,34 @@ img {
 
     .mobile-navbar-container-show {
         display: block;
+    }
+
+    #ToDoey {
+        font-size: 46px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .task-list-container {
+        grid-template-columns: repeat(1, 300px);
+    }
+
+    .task-card {
+        justify-self: stretch;
+    }
+
+    .task-card:nth-last-child(1) {
+        margin-bottom: 50px;
+    }
+
+    .form-card {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .container {
+        text-align: center;
     }
 }
