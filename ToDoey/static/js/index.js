@@ -66,6 +66,40 @@ $(document).ready(function () {
       }
     });
   }
+
+  function updateMobileActiveNav() {
+    var currentPage = $("body").attr("id"); // Get the unique ID of the body tag
+    // Loop through all nav links
+    $(".movile-navbar a").each(function () {
+      var navItem = $(this);
+      // Check if the href of the nav item matches the current page
+      if (navItem.attr("href") === window.location.pathname) {
+        // Remove active class from all and add to the current one
+        $(".movile-navbar a").removeClass("navbar-active");
+        navItem.addClass("navbar-active");
+      }
+    });
+  }
   // Run on page load
   updateActiveNavItem();
+  updateMobileActiveNav();
+
+  function showMobileNavBar() {
+    // get the menu icon
+    var menuIcon = $(".movile-navbar i");
+
+    menuIcon.click(function () {
+      $(".mobile-navbar-container").toggleClass("mobile-navbar-container-show");
+
+      // change the icon menu from list to cross and vice versa
+      if (menuIcon.hasClass("bi-list")) {
+        menuIcon.removeClass("bi-list");
+        menuIcon.addClass("bi-x");
+      } else {
+        menuIcon.addClass("bi-list");
+        menuIcon.removeClass("bi-x");
+      }
+    });
+  }
+  showMobileNavBar();
 });

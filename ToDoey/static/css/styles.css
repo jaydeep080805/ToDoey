@@ -85,8 +85,28 @@ body {
     margin-top: 20px;
 }
 
+@keyframes strikethrough {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
 #ToDoey {
-    text-decoration: line-through;
+    position: relative;
+}
+
+#ToDoey::after {
+    content: '';
+    position: absolute;
+    top: 50%; /* Adjust this as needed */
+    left: 0;
+    width: 0;
+    height: 2px; /* Adjust thickness of the line */
+    background: var(--pink); /* Color of the strikethrough */
+    animation: strikethrough 1s ease forwards;
 }
 
 /* the main form card that holds all the form elements */
@@ -289,4 +309,38 @@ img {
 .button-icon {
     margin-right: 4px;
     padding-bottom: 50px;
+}
+
+.movile-navbar {
+    display: none;
+}
+
+@media (max-width: 648px) {
+    body {
+        width: 10%;
+    }
+
+    .navbar-full {
+        display: none;
+    }
+    
+    .movile-navbar {
+        display: block;
+        width: 100vw;
+        background-color: var(--grey-navbar);
+        /* padding: 20px; */
+    }
+
+    .movile-navbar a {
+        color: var(--pink);
+        display: block;
+    }
+
+    .mobile-navbar-container {
+        display: none;
+    }
+
+    .mobile-navbar-container-show {
+        display: block;
+    }
 }
