@@ -39,3 +39,10 @@ class ChangeEmailForm(FlaskForm):
     current_email = EmailField("Current Email", validators=[DataRequired()])
     new_email = EmailField("New Email", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+
+class ChangePasswordForm(FlaskForm):
+    current_password = StringField("Current Password", validators=[DataRequired()])
+    new_password = PasswordField("New Password", validators=[DataRequired()])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
