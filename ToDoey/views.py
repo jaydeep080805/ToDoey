@@ -19,9 +19,16 @@ from flask_login import (
 from datetime import date, datetime
 
 # custom imports
-from .forms import TaskForm, SignUpForm, LoginForm, ChangeNameForm, ChangeEmailForm
+from .forms import (
+    TaskForm,
+    SignUpForm,
+    LoginForm,
+    ChangeNameForm,
+    ChangeEmailForm,
+    ChangePasswordForm,
+)
 from .models import UserInformation, TaskDataBase
-from . import db, csrf
+from . import db
 from .utils import (
     hash_password,
     verify_password,
@@ -245,6 +252,34 @@ def change_email():
                 flash("That email is already in use", "error")
 
     return render_template("change_email.html", form=form)
+
+
+@main.route("/change_password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        current_pass = form.current_password.data
+        # if the current password matches the loged in users pass
+        if verify_password(current_user.password, current_pass):
+            new_pass = form.new_password.data
+            confirm_pass = form.confirm_password.data
+            # if the two passwords from the form are the same (the user confirmed their change)
+            if new_pass == confirm_pass:
+                # hash and salt the new password
+                current_user.password = hash_password(form.new_password.data)
+
+                db.session.commit()
+                flash("Password successfully changed", "success")
+                return redirect(url_for("main.profile"))
+
+            else:
+                flash("Passwords do not match", "error")
+        else:
+            flash("Incorrect Password", "error")
+
+    return render_template("change_password.html", form=form)
 
 
 @main.route("/logout")
