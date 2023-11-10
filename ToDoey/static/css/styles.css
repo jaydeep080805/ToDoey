@@ -313,6 +313,10 @@ img {
     float: left;
 }
 
+.profile-info button a {
+    color: white;
+}
+
 .change-email-button {
     margin-left: 15px;
 }
