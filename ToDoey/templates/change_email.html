@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<div class="form-card">
+  <form class="form-container" method="post">
+    {{ form.hidden_tag() }} {{ form.current_email.label }} {{
+    form.current_email(class_="form-element-styling") }} {{ form.new_email.label
+    }} {{ form.new_email(class_="form-element-styling") }}
+    {{form.submit(class_="submit-button btn") }}
+  </form>
+</div>
+{% endblock %}
