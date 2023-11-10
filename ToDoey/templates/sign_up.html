@@ -3,9 +3,12 @@
   <form class="form-container" method="post">
     {{ form.hidden_tag() }} {{ form.name.label }} {{
     form.name(class_="form-element-styling") }} {{ form.email.label }} {{
-    form.email(class_="form-element-styling") }} {{ form.password.label }} {{
-    form.password(class_="form-element-styling", id="password") }}
-    <i class="bi bi-eye-slash" id="togglePassword"></i>
+    form.email(class_="form-element-styling") }} {{ form.password.label }}
+
+    <div class="password-container">
+      {{form.password(class_="form-element-styling", id="password") }}
+      <i class="bi bi-eye-slash" id="togglePassword"></i>
+    </div>
 
     <p class="form-text">
       Already got an account?

@@ -13,7 +13,7 @@ from wtforms.validators import DataRequired
 class TaskForm(FlaskForm):
     task = StringField("Task", validators=[DataRequired()])
     due_date = DateField("Due date")
-    category = SelectField("Catgegory", choices=["Personal", "Work"])
+    category = SelectField("Category", choices=["Personal", "Work"])
     submit = SubmitField("Submit")
 
 

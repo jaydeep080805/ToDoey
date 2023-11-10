@@ -25,6 +25,7 @@ body {
     margin: 20px auto;
     width: 20%;
     height: 50px;
+    min-width: 250px;
     
     border-radius: 5px;
     color: white;
@@ -152,6 +153,7 @@ the elements have their label and content together so its spaced out evenly*/
     background-color: var(--form-element-background);
     color: var(--form-text-col);
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .submit-button {
@@ -166,12 +168,16 @@ the elements have their label and content together so its spaced out evenly*/
     color: var(--form-text-col);
 }
 
+.password-container {
+    position: relative; /* This allows absolute positioning within the div */
+}
+
 #togglePassword {
+    position: absolute;
     opacity: 0.5;
-    width: fit-content;
     align-self: flex-end;
-    transform: translate(-8px, -38px);
     color: var(--form-text-col);
+    right: 10px;
 }
 
 #togglePassword:hover {
@@ -377,10 +383,23 @@ img {
 
     .form-card {
         width: 100%;
-        font-size: 18px;
+        height: 400px;
+        font-size: 22px;
+    }
+
+    .form-container {
+        height: 100%;
+    }
+
+    .form-element {
+        align-items: center;
     }
 
     .container {
         text-align: center;
+    }
+
+    footer {
+        display: none;
     }
 }
