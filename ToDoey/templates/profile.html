@@ -16,21 +16,27 @@
   <div class="profile-info">
     {{ user_info.name }}
     <button type="button" class="btn btn-primary change-email-button">
-      <i class="bi bi-envelope button-icon"></i>Change Name
+      <a href="{{ url_for('main.change_name') }}"
+        ><i class="bi bi-envelope button-icon"></i>Change Name</a
+      >
     </button>
   </div>
 
   <div class="profile-info">
     {{ user_info.email }}
     <button type="button" class="btn btn-primary change-email-button">
-      <i class="bi bi-envelope button-icon"></i>Change Email
+      <a href="{{ url_for('main.change_email') }}"
+        ><i class="bi bi-envelope button-icon"></i>Change Email</a
+      >
     </button>
   </div>
 
   <div class="profile-info">
     <p>********</p>
     <button type="button" class="btn btn-primary change-email-button">
-      <i class="bi bi-lock button-icon"></i>Change Password
+      <a href="{{ url_for('main.change_password') }}"
+        ><i class="bi bi-lock button-icon"></i>Change Password</a
+      >
     </button>
   </div>
 
