@@ -28,3 +28,14 @@ class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+
+class ChangeNameForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
+class ChangeEmailForm(FlaskForm):
+    current_email = EmailField("Current Email", validators=[DataRequired()])
+    new_email = EmailField("New Email", validators=[DataRequired()])
+    submit = SubmitField("Submit")
