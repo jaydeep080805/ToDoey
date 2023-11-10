@@ -6,6 +6,7 @@ $(passwordViewToggle).click(function () {
 
   // if the current type is password {switch to text} else {leave as password};
   $("#password").attr("type", currentType === "password" ? "text" : "password");
+  $(".test-poo").attr("type", currentType === "password" ? "text" : "password");
 
   // toggle the opacity class
   $(this).toggleClass("active");
