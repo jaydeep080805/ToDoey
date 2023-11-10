@@ -187,6 +187,7 @@ the elements have their label and content together so its spaced out evenly*/
     background-color: rgb(246, 84, 225);
     color: white;
     border-color: white;
+    transform: scale(1.04);
     
     box-shadow: -5px -5px var(--pink);
 }
