@@ -51,8 +51,19 @@ def home():
         tasks = current_user.tasks
 
         # filter the tasks by due date
-        other_tasks = [task for task in tasks if task.due_date != date.today()]
-        due_today_tasks = [task for task in tasks if task.due_date == date.today()]
+        other_tasks = [
+            task
+            for task in tasks
+            if task.due_date != date.today() and task.completed != True
+        ]
+        due_today_tasks = [
+            task
+            for task in tasks
+            if task.due_date == date.today() and task.completed != True
+        ]
+
+    for task in other_tasks:
+        print(task.completed)
 
     return render_template(
         "index.html", form=form, task_list=other_tasks, due_today_tasks=due_today_tasks
@@ -69,9 +80,9 @@ def update_task():
         task_id = data.get("task_id")
         # print(data["task_id"])
 
-        task_to_delete = TaskDataBase.query.get(task_id)
+        task_to_update = TaskDataBase.query.get(task_id)
         try:
-            db.session.delete(task_to_delete)
+            task_to_update.completed = True
             db.session.commit()
             return jsonify({"status": "success"}), 200
         except:
