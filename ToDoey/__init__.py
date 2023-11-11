@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from os import environ
+from os import environ, path
 from dotenv import load_dotenv
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
@@ -15,11 +15,14 @@ login_manager = LoginManager()
 csrf = CSRFProtect()
 migrate = Migrate()
 
+UPLOAD_FOLDER = path.join("ToDoey", "static", "images")
+
 
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = environ["SECRET_KEY"]
     app.config["SQLALCHEMY_DATABASE_URI"] = environ["DATABASE_URL"]
+    app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
     db.init_app(app)
     login_manager.init_app(app)
