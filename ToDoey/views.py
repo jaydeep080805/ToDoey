@@ -14,9 +14,11 @@ from flask_login import (
     login_user,
     logout_user,
     login_required,
-    AnonymousUserMixin,
 )
 from datetime import date, datetime
+from werkzeug.utils import secure_filename
+import uuid
+from os import path, makedirs
 
 # custom imports
 from .forms import (
@@ -26,6 +28,7 @@ from .forms import (
     ChangeNameForm,
     ChangeEmailForm,
     ChangePasswordForm,
+    ChangeProfilePic,
 )
 from .models import UserInformation, TaskDataBase
 from . import db
@@ -208,7 +211,8 @@ def login():
 @login_required
 def profile():
     user_info = get_user_by_email(current_user.email)
-    return render_template("profile.html", user_info=user_info)
+    image_file = url_for("static", filename=f"/images/{current_user.profile_pic}")
+    return render_template("profile.html", user_info=user_info, image_file=image_file)
 
 
 @main.route("/change_name", methods=["GET", "POST"])
@@ -290,6 +294,40 @@ def change_password():
             flash("Incorrect Password", "error")
 
     return render_template("change_password.html", form=form)
+
+
+@main.route("/change_pic", methods=["GET", "POST"])
+@login_required
+def change_pic():
+    form = ChangeProfilePic()
+    ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg"}
+
+    if form.validate_on_submit():
+        raw_profile_pic = request.files["profile_pic"]
+
+        if raw_profile_pic:
+            filename = secure_filename(raw_profile_pic.filename)
+            unique_filename = str(uuid.uuid1()) + "." + filename
+
+            upload_folder = current_app.config["UPLOAD_FOLDER"]
+            full_path = path.join(upload_folder, unique_filename)
+
+            # Check if the upload folder exists, create it if not
+            if not path.exists(upload_folder):
+                makedirs(upload_folder)
+
+            # Save the file
+            raw_profile_pic.save(full_path)
+
+            current_user.profile_pic = unique_filename
+            db.session.commit()
+            flash("Profile picture updated successfully!", "success")
+
+            return redirect(url_for("main.profile"))
+        else:
+            flash("No file selected", "error")
+
+    return render_template("change_pic.html", form=form)
 
 
 @main.route("/logout")
