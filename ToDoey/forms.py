@@ -6,6 +6,7 @@ from wtforms import (
     EmailField,
     PasswordField,
     SelectField,
+    FileField,
 )
 from wtforms.validators import DataRequired
 
@@ -45,4 +46,9 @@ class ChangePasswordForm(FlaskForm):
     current_password = StringField("Current Password", validators=[DataRequired()])
     new_password = PasswordField("New Password", validators=[DataRequired()])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
+class ChangeProfilePic(FlaskForm):
+    profile_pic = FileField("Profile picture")
     submit = SubmitField("Submit")
