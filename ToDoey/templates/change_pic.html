@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %}
+<div class="form-card">
+  <form class="form-container" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }} {{ form.profile_pic.label }} {{
+    form.profile_pic(class_="form-element-styling submit-file") }}
+    {{form.submit(class_="submit-button btn") }}
+  </form>
+</div>
+{% endblock %}
