@@ -7,6 +7,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 import logging
 from logging.handlers import RotatingFileHandler
+from flask_mail import Mail
 
 load_dotenv()
 
@@ -14,20 +15,30 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 csrf = CSRFProtect()
 migrate = Migrate()
+mail = Mail()
 
 UPLOAD_FOLDER = path.join("ToDoey", "static", "images")
 
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = environ["SECRET_KEY"]
-    app.config["SQLALCHEMY_DATABASE_URI"] = environ["DATABASE_URL"]
+    app.config["SECRET_KEY"] = environ.get("SECRET_KEY")
+    app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URL")
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+    app.config["MAIL_SERVER"] = "smtp.gmail.com"
+    app.config["MAIL_PORT"] = 587
+    app.config["MAIL_USE_TLS"] = True
+    app.config["MAIL_USE_SSL"] = False
+    app.config["MAIL_USERNAME"] = environ.get("EMAIL")
+    app.config["MAIL_PASSWORD"] = environ.get("EMAIL_PASSWORD")
+    app.config["MAIL_DEFAULT_SENDER"] = environ.get("EMAIL")
 
     db.init_app(app)
     login_manager.init_app(app)
     csrf.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
 
     # Logging configuration
     if not app.debug:
