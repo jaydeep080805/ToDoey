@@ -5,25 +5,25 @@
 <div class="profile-container">
   <div class="profile-info">
     <img src="{{ image_file }}" class="profile-picture" />
-    <button type="button" class="btn btn-primary change-email-button">
+    <button type="button" class="btn btn-primary change-info-button">
       <a href="{{ url_for('main.change_pic') }}"
-        ><i class="bi bi-envelope button-icon"></i>Change Profile Picture</a
+        ><i class="bi bi-images button-icon"></i>Change Profile Picture</a
       >
     </button>
   </div>
 
   <div class="profile-info">
     {{ user_info.name }}
-    <button type="button" class="btn btn-primary change-email-button">
+    <button type="button" class="btn btn-primary change-info-button">
       <a href="{{ url_for('main.change_name') }}"
-        ><i class="bi bi-envelope button-icon"></i>Change Name</a
+        ><i class="bi bi-bar-chart-steps button-icon"></i>Change Name</a
       >
     </button>
   </div>
 
   <div class="profile-info">
     {{ user_info.email }}
-    <button type="button" class="btn btn-primary change-email-button">
+    <button type="button" class="btn btn-primary change-info-button">
       <a href="{{ url_for('main.change_email') }}"
         ><i class="bi bi-envelope button-icon"></i>Change Email</a
       >
@@ -32,7 +32,7 @@
 
   <div class="profile-info">
     <p>********</p>
-    <button type="button" class="btn btn-primary change-email-button">
+    <button type="button" class="btn btn-primary change-info-button">
       <a href="{{ url_for('main.change_password') }}"
         ><i class="bi bi-lock button-icon"></i>Change Password</a
       >
