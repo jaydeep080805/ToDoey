@@ -1,23 +1,33 @@
+/* Root Variables */
 :root {
-    --pink: #ff69b4;
-    --pink-hover: #e04a95;
+    /* Pink Color Definitions */
+    --pink: #ff69b4; /* Main pink color */
+    --pink-hover: #e04a95; /* Pink color on hover */
     
-    --grey-navbar: #333;
-    --grey-navbar-hover: #222222;
+    /* Grey Navbar Colors */
+    --grey-navbar: #333; /* Background color of the navbar */
+    --grey-navbar-hover: #222222; /* Navbar background color on hover */
     
-    --form-text-col: #fff;
-    --form-element-background: #444444;
-    --form-background: #222;
+    /* Form and Text Colors */
+    --form-text-col: #fff; /* Text color in forms */
+    --form-element-background: #444444; /* Background color of form elements */
+    --form-background: #222; /* Background color of forms */
+
+    /* Task Card Hover Color */
+    --task-card-hover: rgb(246, 84, 225); /* Task card background color on hover */
     
-    --background-col: #121212;
+    /* Background Color */
+    --background-col: #121212; /* Page background color */
 }
 
+/* Body Styles */
 body {
     background-color: var(--background-col);
     color: var(--pink);
     font-family: "Montserrat", sans-serif;
 }
 
+/* Flash Messages Styles */
 .flashes {
     display: flex;
     align-items: center;
@@ -26,21 +36,23 @@ body {
     width: 20%;
     height: 50px;
     min-width: 250px;
-    
     border-radius: 5px;
     color: white;
 }
 
+/* flash success style */
 .success {
     background-color: rgba(255, 105, 180, 0.4);
     border: 2px solid var(--pink);
 }
 
+/* flash error style */
 .error {
     background-color: rgba(255, 0, 0, 0.4);
     border: 2px solid red;
 }
 
+/* Navbar Styles */
 .navbar-full {
     width: 100%;
     background-color: var(--grey-navbar);
@@ -56,11 +68,13 @@ body {
     justify-content: flex-end;
 }
 
+/* applies to both sides */
 .navbar-styling {
     display: flex;
     align-items: center;
 }
 
+/* navbar elements */
 .navbar-styling a {
     padding: 10px 15px;
     text-decoration: none;
@@ -77,6 +91,8 @@ body {
     background-color: var(--grey-navbar-hover);
 }
 
+/* Container Styles */
+/* holds all the main info (defined in base.html) */
 .container {
     display: flex;
     justify-content: center;
@@ -86,6 +102,7 @@ body {
     margin-top: 20px;
 }
 
+/* Keyframes for Strikethrough Animation */
 @keyframes strikethrough {
     from {
         width: 0;
@@ -95,39 +112,20 @@ body {
     }
 }
 
-#ToDoey {
-    position: relative;
-}
-
-#ToDoey::after {
-    content: '';
-    position: absolute;
-    top: 50%; /* Adjust this as needed */
-    left: 0;
-    width: 0;
-    height: 2px; /* Adjust thickness of the line */
-    background: var(--pink); /* Color of the strikethrough */
-    animation: strikethrough 1s ease forwards;
-}
-
-/* the main form card that holds all the form elements */
+/* Form Card Styles */
 .form-card {
     border: solid 4px var(--pink);
     border-radius: 10px;
     border-style: double;
-    
     background-color: var(--form-background);
-    
     padding: 25px;
     box-shadow: 5px 5px var(--pink);
     margin-top: 10px;
-    
     width: 50%;
     height: 100%;
 }
 
-/* styling for the container that holds all the form elements
-this just allows the container to span the whole length of the card but have some space around it*/
+/* Styles for the Container Holding Form Elements */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -135,8 +133,7 @@ this just allows the container to span the whole length of the card but have som
     height: 100%;
 }
 
-/* styling for the content of the forms (form.task.label) etc 
-the elements have their label and content together so its spaced out evenly*/
+/* Styles for Individual Form Elements */
 .form-element {
     display: flex;
     flex-direction: column;
@@ -144,10 +141,12 @@ the elements have their label and content together so its spaced out evenly*/
     justify-content: space-evenly;
 }
 
+/* changes only the submit button on the task form */
 .form-element:nth-last-child(1) {
     margin-top: 15px;
 }
 
+/* styles all the form elements */
 .form-element-styling {
     border-radius: 2px;
     background-color: var(--form-element-background);
@@ -156,6 +155,7 @@ the elements have their label and content together so its spaced out evenly*/
     width: 100%;
 }
 
+/* Submit Button Styles */
 .submit-button {
     background-color: var(--pink);
     color: var(--form-text-col);
@@ -168,10 +168,12 @@ the elements have their label and content together so its spaced out evenly*/
     color: var(--form-text-col);
 }
 
+/* the form in change_password.html */
 .password-container {
-    position: relative; /* This allows absolute positioning within the div */
+    position: relative;
 }
 
+/* <i> tag to allow the user to see their password */
 #togglePassword {
     position: absolute;
     opacity: 0.5;
@@ -188,11 +190,13 @@ the elements have their label and content together so its spaced out evenly*/
     opacity: 1;
 }
 
+/* the text on the sign up and login forms that redirects you if you have an acc/need to make one */
 .form-text {
     font-size: 14px;
     color: var(--pink);
 }
 
+/* the main container in index.html that holds all the tasks */
 .task-list-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -201,25 +205,24 @@ the elements have their label and content together so its spaced out evenly*/
     overflow: auto;
 }
 
+/* Task List Heading Styles */
 .task-list-heading {
     margin: 20px 0;
 }
 
+/* Task Card Styles */
 .task-card {
     border: 2px solid var(--pink);
     border-radius: 4px;
-    
     padding: 20px;
-    
     transition: ease 0.3s;
 }
 
 .task-card:hover {
-    background-color: rgb(246, 84, 225);
+    background-color: var(--task-card-hover);
     color: white;
     border-color: white;
     transform: scale(1.04);
-    
     box-shadow: -5px -5px var(--pink);
 }
 
@@ -227,6 +230,7 @@ the elements have their label and content together so its spaced out evenly*/
     transform: translate(0, 15px);
 }
 
+/* profile container for profile.html */
 .profile-container {
     display: flex;
     flex-direction: column;
@@ -235,8 +239,9 @@ the elements have their label and content together so its spaced out evenly*/
     gap: 10px;
 }
 
+/* Profile Picture Styles */
 .profile-picture {
-    width: 150px; /* or a percentage value if you want it to be relative to its container */
+    width: 150px; 
     height: 150px; /* should match the width for a perfect circle */
     border-radius: 50%;
     object-fit: cover; /* This will ensure the image covers the area without stretching */
@@ -244,38 +249,41 @@ the elements have their label and content together so its spaced out evenly*/
     max-height: 100%;
 }
 
+/* each section on the profile page 
+profile pic, email, password etc*/
 .profile-info {
     margin-bottom: 20px;
 }
 
+/* so the passoword text which is just (****) can be next to the button */
 .profile-info p {
     float: left;
 }
 
+/* sets the colour of the a tag nested in the buttons */
 .profile-info button a {
     color: white;
-}
-
-.btn a {
-    color: inherit; /* To inherit the text color from the button */
     text-decoration: none; /* Removes underline from links */
 }
 
+/* the button next to the users info (change name, email etc) */
 .change-info-button {
     padding: 10px 20px; /* Adjust as needed */
     width: auto; /* This makes the button's width content-dependent */
-    margin: 10px;
+    margin: 0px 10px;
 }
 
+/* the <i> tags inside the buttons on the users profile */
 .button-icon {
-    margin-right: 4px;
-    padding-bottom: 50px;
+    margin-right: 12px;
 }
 
+/* the submit button on the form for uploading profile pics */
 .submit-file {
     margin: 12px 0;
 }
 
+/* footer (: */
 footer {
     background-color: var(--grey-navbar);
     bottom: 0;
@@ -298,7 +306,6 @@ footer {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    
     margin-top: 10%;
     text-align: left;
 }
@@ -338,6 +345,7 @@ ul .bi:hover {
     background-color: #ffffff;
 }
 
+/* make sure the mobile nav bar doesnt display */
 .mobile-navbar {
     display: none;
 }
@@ -347,10 +355,12 @@ ul .bi:hover {
         font-size: 20px; /* Increase base font size for readability on mobile */
     }
 
+    /* make sure the desktop nav bar doesnt show */
     .navbar-full {
         display: none;
     }
-    
+
+    /* styling for the mobile nav bar */
     .mobile-navbar {
         display: block;
         width: 100vw;
@@ -359,102 +369,90 @@ ul .bi:hover {
         font-size: 18px;
     }
 
+    /* styling for the bootstrap icons */
     .bi {
         font-size: 26px;
     }
 
+    /* make the first element of the drop down navbar have a margin so it doesnt look cramped */
     .mobile-navbar-container a:nth-child(1) {
         margin-top: 10px;
     }
 
+    /* drop down menu elements stlying */
     .mobile-navbar a {
         color: var(--pink);
         display: block;
         padding: 5px 0;
     }
 
+    /* stops the menu being shown all the time */
     .mobile-navbar-container {
         display: none;
     }
 
+    /* access this from javascript to make the navbar show when clicked */
     .mobile-navbar-container-show {
         display: block;
     }
 
+    /* title */
     #ToDoey {
         font-size: 46px;
     }
 
+    /* set the width of the container */
     .container {
-        width: 100%;
+        max-width: 100%;
+        text-align: center;
     }
 
+    /* make the tasks show in a list */
     .task-list-container {
         grid-template-columns: repeat(1, 300px);
     }
 
+    /* make the tasks cards stretch to take the 300px */
     .task-card {
         justify-self: stretch;
     }
 
+    /* add margin to the last task to add space between the footer */
     .task-card:nth-last-child(1) {
         margin-bottom: 50px;
     }
 
+    /* new task form */
     .form-card {
         width: 100%;
         height: 400px;
         font-size: 22px;
     }
 
-    .form-container {
-        height: 100%;
-    }
-
-    .form-element {
-        align-items: center;
-    }
-
-    .container {
-        text-align: center;
-    }
-
+    /* make the profile page container be centered  */
     .profile-container {
         padding: 20px;
-        display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
     }
 
+    /* make the password text centered */
     .profile-info {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 20px; /* Add some space below the profile info */
     }
 
+    /* set a smaller profile picture size */
     .profile-picture {
         width: 120px; /* smaller size for smaller screens */
         height: 120px; /* should match the width */
     }
-
-    .profile-info, .profile-actions {
-        flex-direction: column;
-        align-items: center;
-    }
     
+    /* make the submit button on the profile picture a bigger */
     .submit-button {
         width: 100%;
         padding: 12px 20px; /* Bigger tap target */
-        border: none;
-        background-color: var(--pink); /* Sample color */
-        color: white;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
     }
-
 
     footer {
         display: none;
