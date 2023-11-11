@@ -6,7 +6,10 @@ $(passwordViewToggle).click(function () {
 
   // if the current type is password {switch to text} else {leave as password};
   $("#password").attr("type", currentType === "password" ? "text" : "password");
-  $(".test-poo").attr("type", currentType === "password" ? "text" : "password");
+  $(".test-pass").attr(
+    "type",
+    currentType === "password" ? "text" : "password"
+  );
 
   // toggle the opacity class
   $(this).toggleClass("active");
@@ -33,7 +36,7 @@ $(document).ready(function () {
         type: "POST",
         contentType: "application/json",
         headers: {
-          "X-CSRFToken": $("input[name='csrf_token']").val(), // Add this line
+          "X-CSRFToken": $("input[name='csrf_token']").val(),
         },
         data: JSON.stringify({
           task_id: taskId,
