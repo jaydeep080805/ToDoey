@@ -2,6 +2,9 @@ from . import db
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey, Boolean
 from datetime import date
+from os import path
+
+basedir = path.abspath(path.dirname(__file__))
 
 
 class TaskDataBase(db.Model):
@@ -20,7 +23,7 @@ class UserInformation(db.Model, UserMixin):
     name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(), nullable=False)
     password = db.Column(db.String(), nullable=False)
-    profile_pic = db.Column(db.String(), nullable=True)
+    profile_pic = db.Column(db.String(), default=f"{basedir}static/images/default.png")
     creation_date = db.Column(db.Date, default=date.today())
     tasks = db.relationship(
         "TaskDataBase", order_by=TaskDataBase.due_date, back_populates="user"
