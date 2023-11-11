@@ -326,6 +326,10 @@ img {
     padding-bottom: 50px;
 }
 
+.submit-file {
+    margin: 12px 0;
+}
+
 .mobile-navbar {
     display: none;
 }
