@@ -4,12 +4,11 @@
 {% endblock %} {% block content %}
 <div class="profile-container">
   <div class="profile-info">
-    <img
-      src="{{ url_for('static', filename='images/default.png') }}"
-      class="profile-picture"
-    />
+    <img src="{{ image_file }}" class="profile-picture" />
     <button type="button" class="btn btn-primary change-email-button">
-      <i class="bi bi-envelope button-icon"></i>Change Profile Picture
+      <a href="{{ url_for('main.change_pic') }}"
+        ><i class="bi bi-envelope button-icon"></i>Change Profile Picture</a
+      >
     </button>
   </div>
 
