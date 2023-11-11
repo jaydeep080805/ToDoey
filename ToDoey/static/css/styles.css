@@ -163,7 +163,7 @@ body {
     width: 50%;
 }
 
-.submit-button:hover {
+.btn:hover {
     background-color: var(--pink-hover);
     color: var(--form-text-col);
 }
@@ -241,21 +241,29 @@ body {
 
 /* Profile Picture Styles */
 .profile-picture {
-    width: 150px; 
-    height: 150px; /* should match the width for a perfect circle */
+    width: 15rem; 
+    height: 15rem; /* should match the width for a perfect circle */
     border-radius: 50%;
     object-fit: cover; /* This will ensure the image covers the area without stretching */
     max-width: 100%; /* prevents the image from exceeding the width of its container */
     max-height: 100%;
 }
 
-/* each section on the profile page 
-profile pic, email, password etc*/
-.profile-info {
+/* make the picture centered */
+.profile-picture-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-/* so the passoword text which is just (****) can be next to the button */
+/* add space between pic and button */
+.profile-container .change-profile-pic-button {
+    margin-top: 20px;
+}
+
+/* so the password text which is just (****) can be next to the button */
 .profile-info p {
     float: left;
 }
@@ -266,14 +274,15 @@ profile pic, email, password etc*/
     text-decoration: none; /* Removes underline from links */
 }
 
-/* the button next to the users info (change name, email etc) */
+/* the button next to the user's info (change name, email, etc.) */
 .change-info-button {
     padding: 10px 20px; /* Adjust as needed */
     width: auto; /* This makes the button's width content-dependent */
     margin: 0px 10px;
+    background-color: var(--pink);
 }
 
-/* the <i> tags inside the buttons on the users profile */
+/* the <i> tags inside the buttons on the user's profile */
 .button-icon {
     margin-right: 12px;
 }
@@ -345,7 +354,7 @@ ul .bi:hover {
     background-color: #ffffff;
 }
 
-/* make sure the mobile nav bar doesnt display */
+/* make sure the mobile nav bar doesn't display */
 .mobile-navbar {
     display: none;
 }
@@ -355,7 +364,7 @@ ul .bi:hover {
         font-size: 20px; /* Increase base font size for readability on mobile */
     }
 
-    /* make sure the desktop nav bar doesnt show */
+    /* make sure the desktop nav bar doesn't show */
     .navbar-full {
         display: none;
     }
@@ -374,12 +383,12 @@ ul .bi:hover {
         font-size: 26px;
     }
 
-    /* make the first element of the drop down navbar have a margin so it doesnt look cramped */
+    /* make the first element of the drop-down navbar have a margin so it doesn't look cramped */
     .mobile-navbar-container a:nth-child(1) {
         margin-top: 10px;
     }
 
-    /* drop down menu elements stlying */
+    /* drop-down menu elements styling */
     .mobile-navbar a {
         color: var(--pink);
         display: block;
@@ -391,7 +400,7 @@ ul .bi:hover {
         display: none;
     }
 
-    /* access this from javascript to make the navbar show when clicked */
+    /* access this from JavaScript to make the navbar show when clicked */
     .mobile-navbar-container-show {
         display: block;
     }
@@ -429,6 +438,10 @@ ul .bi:hover {
         font-size: 22px;
     }
 
+    .form-element-styling {
+        align-self: center;
+    }
+
     /* make the profile page container be centered  */
     .profile-container {
         padding: 20px;
@@ -448,7 +461,7 @@ ul .bi:hover {
         height: 120px; /* should match the width */
     }
     
-    /* make the submit button on the profile picture a bigger */
+    /* make the submit button on the profile picture bigger */
     .submit-button {
         width: 100%;
         padding: 12px 20px; /* Bigger tap target */
