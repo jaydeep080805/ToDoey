@@ -35,6 +35,7 @@ from .utils import (
     validate_email,
     get_user_by_email,
     get_user_by_id,
+    updated_info_message,
 )
 
 
@@ -223,6 +224,7 @@ def change_name():
         # then commit the changes and alert the user
         db.session.commit()
         flash("Successfully changed name", "success")
+        updated_info_message(current_user.email, "Username")
         return redirect(url_for("main.profile"))
 
     return render_template("change_name.html", form=form)
@@ -239,17 +241,24 @@ def change_email():
         # and you cannot use the same email more than once
         if form.current_email.data == current_user.email:
             new_email = form.new_email.data
-            # if the new email is not currently in the db (is valid)
+            # if the new email is not currently in the db (is ready to change)
             if validate_email(new_email):
                 current_user.email = validate_email(new_email)
 
                 db.session.commit()
+                # send an email to the previous email to let them know their email has changed
+                # TODO let the user report if it is unauthorised
                 flash("Successfully changed email", "success")
+                updated_info_message(form.current_email.data, "Email")
                 return redirect(url_for("main.profile"))
 
             # if the email is already in the db (not valid/used by someone else)
             else:
                 flash("That email is already in use", "error")
+
+        # if the email doesnt match their current email
+        else:
+            flash("That is not the correct email", "error")
 
     return render_template("change_email.html", form=form)
 
@@ -272,6 +281,7 @@ def change_password():
 
                 db.session.commit()
                 flash("Password successfully changed", "success")
+                updated_info_message(current_user.email, "Password")
                 return redirect(url_for("main.profile"))
 
             else:
