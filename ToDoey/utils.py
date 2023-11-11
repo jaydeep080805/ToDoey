@@ -8,11 +8,13 @@ from flask import current_app
 
 # generates a hashed password
 def hash_password(password):
+    # Generate a hashed password using PBKDF2 with SHA-256 and a salt length of 16.
     return generate_password_hash(password, method="pbkdf2:sha256", salt_length=16)
 
 
 # checks a hashed password
 def verify_password(hashed_password, password_from_form):
+    # Check if the provided password matches the hashed password.
     return check_password_hash(hashed_password, password_from_form)
 
 
@@ -20,6 +22,7 @@ def verify_password(hashed_password, password_from_form):
 # if it is then return the email,
 # else return False
 def validate_email(form_email):
+    # Check if the email is unique in the database.
     return (
         False
         if UserInformation.query.filter_by(email=form_email).first()
@@ -27,13 +30,15 @@ def validate_email(form_email):
     )
 
 
-# get a users account by their email
+# get a user's account by their email
 def get_user_by_email(email):
+    # Retrieve a user's account by their email from the database.
     return UserInformation.query.filter_by(email=email).first()
 
 
-# get a users account by their id
+# get a user's account by their id
 def get_user_by_id(id):
+    # Retrieve a user's account by their ID from the database.
     return UserInformation.query.get(id)
 
 
