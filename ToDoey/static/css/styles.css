@@ -227,6 +227,55 @@ the elements have their label and content together so its spaced out evenly*/
     transform: translate(0, 15px);
 }
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.profile-picture {
+    width: 150px; /* or a percentage value if you want it to be relative to its container */
+    height: 150px; /* should match the width for a perfect circle */
+    border-radius: 50%;
+    object-fit: cover; /* This will ensure the image covers the area without stretching */
+    max-width: 100%; /* prevents the image from exceeding the width of its container */
+    max-height: 100%;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    float: left;
+}
+
+.profile-info button a {
+    color: white;
+}
+
+.btn a {
+    color: inherit; /* To inherit the text color from the button */
+    text-decoration: none; /* Removes underline from links */
+}
+
+.change-info-button {
+    padding: 10px 20px; /* Adjust as needed */
+    width: auto; /* This makes the button's width content-dependent */
+    margin: 10px;
+}
+
+.button-icon {
+    margin-right: 4px;
+    padding-bottom: 50px;
+}
+
+.submit-file {
+    margin: 12px 0;
+}
+
 footer {
     background-color: var(--grey-navbar);
     bottom: 0;
@@ -289,52 +338,15 @@ ul .bi:hover {
     background-color: #ffffff;
 }
 
-img {
-    width: 250px;
-    border-radius: 100%;
-    padding: 20px;
-}
-
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    gap: 10px;
-}
-
-
-.profile-picture {
-    height: 100px;
-    width: 100px;
-}
-
-.profile-info p {
-    float: left;
-}
-
-.profile-info button a {
-    color: white;
-}
-
-.change-email-button {
-    margin-left: 15px;
-}
-
-.button-icon {
-    margin-right: 4px;
-    padding-bottom: 50px;
-}
-
-.submit-file {
-    margin: 12px 0;
-}
-
 .mobile-navbar {
     display: none;
 }
 
-@media (max-width: 648px) {
+@media (max-width: 768px) {
+    body {
+        font-size: 20px; /* Increase base font size for readability on mobile */
+    }
+
     .navbar-full {
         display: none;
     }
@@ -406,6 +418,43 @@ img {
     .container {
         text-align: center;
     }
+
+    .profile-container {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px; /* Add some space below the profile info */
+    }
+
+    .profile-picture {
+        width: 120px; /* smaller size for smaller screens */
+        height: 120px; /* should match the width */
+    }
+
+    .profile-info, .profile-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .submit-button {
+        width: 100%;
+        padding: 12px 20px; /* Bigger tap target */
+        border: none;
+        background-color: var(--pink); /* Sample color */
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
 
     footer {
         display: none;
