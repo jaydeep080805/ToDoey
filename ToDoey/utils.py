@@ -1,5 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import UserInformation
+from flask_mail import Message
+import smtplib
+from os import environ
 
 
 # generates a hashed password
@@ -31,3 +34,25 @@ def get_user_by_email(email):
 # get a users account by their id
 def get_user_by_id(id):
     return UserInformation.query.get(id)
+
+
+# function to send an email
+# takes the recipient and what information the user changed (name, email etc)
+def updated_info_message(recipient, change):
+    my_email = environ["EMAIL"]
+    password = environ["EMAIL_PASSWORD"]
+
+    # create a connection
+    connection = smtplib.SMTP("smtp.gmail.com", port=587)
+
+    # makes the connection secure with encryption
+    connection.starttls()
+    # login to our account
+    connection.login(user=my_email, password=password)
+
+    # send an email
+    connection.sendmail(
+        from_addr=my_email,
+        to_addrs=recipient,
+        msg=f"Subject:{change} Change\n\nYour {change} has successfully been changed",
+    )
