@@ -25,6 +25,7 @@ body {
     background-color: var(--background-col);
     color: var(--pink);
     font-family: "Montserrat", sans-serif;
+    accent-color: var(--pink);
 }
 
 /* Flash Messages Styles */
@@ -180,7 +181,7 @@ body {
 
 .btn:hover {
     background-color: var(--pink-hover);
-    color: var(--form-text-col);
+    color: #121212;
 }
 
 /* the form in change_password.html */
@@ -294,12 +295,12 @@ body {
 }
 
 /* sets the colour of the a tag nested in the buttons */
-.profile-info button a {
+.profile-info a {
     color: white;
     text-decoration: none; /* Removes underline from links */
 }
 
-.test {
+.profile-divider {
     display: flex;
     flex-direction: column;
     padding-top: 20px;
@@ -383,6 +384,25 @@ ul .bi {
 ul .bi:hover {
     color: #24262b;
     background-color: #ffffff;
+}
+
+.notification-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    width: fit-content;
+}
+
+.notification-form .submit-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.notification-checkbox-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* make sure the mobile nav bar doesn't display */
