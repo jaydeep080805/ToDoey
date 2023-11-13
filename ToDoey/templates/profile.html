@@ -3,18 +3,26 @@
 <hr />
 {% endblock %} {% block content %}
 <div class="profile-container">
-  <div class="profile-info">
+  <div class="profile-info profile-picture-section">
     <img src="{{ image_file }}" class="profile-picture" />
-    <button type="button" class="btn btn-primary change-info-button">
+    <button
+      type="button"
+      class="btn change-info-button change-profile-pic-button"
+    >
       <a href="{{ url_for('main.change_pic') }}"
         ><i class="bi bi-images button-icon"></i>Change Profile Picture</a
       >
     </button>
   </div>
 
+  <div class="test">
+    <h2>personal details</h2>
+    <hr class="custom-hr">
+  </div>
+
   <div class="profile-info">
     {{ user_info.name }}
-    <button type="button" class="btn btn-primary change-info-button">
+    <button type="button" class="btn change-info-button">
       <a href="{{ url_for('main.change_name') }}"
         ><i class="bi bi-bar-chart-steps button-icon"></i>Change Name</a
       >
@@ -23,7 +31,7 @@
 
   <div class="profile-info">
     {{ user_info.email }}
-    <button type="button" class="btn btn-primary change-info-button">
+    <button type="button" class="btn change-info-button">
       <a href="{{ url_for('main.change_email') }}"
         ><i class="bi bi-envelope button-icon"></i>Change Email</a
       >
@@ -31,8 +39,8 @@
   </div>
 
   <div class="profile-info">
-    <p>********</p>
-    <button type="button" class="btn btn-primary change-info-button">
+    <p id="password-text">********</p>
+    <button type="button" class="btn change-info-button">
       <a href="{{ url_for('main.change_password') }}"
         ><i class="bi bi-lock button-icon"></i>Change Password</a
       >
