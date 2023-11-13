@@ -17,7 +17,7 @@
 
   <div class="test">
     <h2>personal details</h2>
-    <hr class="custom-hr">
+    <hr class="custom-hr" />
   </div>
 
   <div class="profile-info">
@@ -43,6 +43,14 @@
     <button type="button" class="btn change-info-button">
       <a href="{{ url_for('main.change_password') }}"
         ><i class="bi bi-lock button-icon"></i>Change Password</a
+      >
+    </button>
+  </div>
+
+  <div class="profile-info">
+    <button type="button" class="btn change-info-button">
+      <a href=" {{ url_for('main.completed_tasks') }}"
+        ><i class="bi bi-list-task button-icon"></i>Completed Tasks</a
       >
     </button>
   </div>

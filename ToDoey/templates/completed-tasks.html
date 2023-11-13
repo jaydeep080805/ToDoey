@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block title %}
+<h1>Completed Tasks:</h1>
+<hr>
+{% endblock %}{% block content %}
+<h5 style="margin-bottom: 20px;">You have completed <em>{{ amount_of_tasks }}</em> tasks in total!</h5>
+{% for task in tasks %}
+  <p>{{ task.task }} : <em>{{ task.date_completed }}</em></p>
+{% endfor %}
+{% endblock %}
