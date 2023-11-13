@@ -16,6 +16,7 @@ class TaskDataBase(db.Model):
     due_date = db.Column(db.Date, nullable=True)
     category = db.Column(db.String())
     completed = db.Column(Boolean, default=False)
+    date_completed = db.Column(db.Date, nullable=True)
     user = db.relationship("UserInformation", back_populates="tasks")
 
 
