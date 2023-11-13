@@ -5,54 +5,61 @@
 <div class="profile-container">
   <div class="profile-info profile-picture-section">
     <img src="{{ image_file }}" class="profile-picture" />
-    <button
-      type="button"
+    <a
+      href="{{ url_for('main.change_pic') }}"
       class="btn change-info-button change-profile-pic-button"
+      ><i class="bi bi-images button-icon"></i>Change Profile Picture</a
     >
-      <a href="{{ url_for('main.change_pic') }}"
-        ><i class="bi bi-images button-icon"></i>Change Profile Picture</a
-      >
-    </button>
   </div>
 
-  <div class="test">
-    <h2>personal details</h2>
+  <div class="profile-divider">
+    <h2>Personal Details</h2>
     <hr class="custom-hr" />
   </div>
 
   <div class="profile-info">
     {{ user_info.name }}
-    <button type="button" class="btn change-info-button">
-      <a href="{{ url_for('main.change_name') }}"
-        ><i class="bi bi-bar-chart-steps button-icon"></i>Change Name</a
-      >
-    </button>
+    <a href="{{ url_for('main.change_name') }}" class="btn change-info-button"
+      ><i class="bi bi-bar-chart-steps button-icon"></i>Change Name</a
+    >
   </div>
 
   <div class="profile-info">
     {{ user_info.email }}
-    <button type="button" class="btn change-info-button">
-      <a href="{{ url_for('main.change_email') }}"
-        ><i class="bi bi-envelope button-icon"></i>Change Email</a
-      >
-    </button>
+    <a href="{{ url_for('main.change_email') }}" class="btn change-info-button"
+      ><i class="bi bi-envelope button-icon"></i>Change Email</a
+    >
   </div>
 
   <div class="profile-info">
     <p id="password-text">********</p>
-    <button type="button" class="btn change-info-button">
-      <a href="{{ url_for('main.change_password') }}"
-        ><i class="bi bi-lock button-icon"></i>Change Password</a
-      >
-    </button>
+    <a
+      href="{{ url_for('main.change_password') }}"
+      class="btn change-info-button"
+      ><i class="bi bi-lock button-icon"></i>Change Password</a
+    >
+  </div>
+
+  <div class="profile-divider">
+    <h2>Tasks</h2>
+    <hr class="custom-hr" />
   </div>
 
   <div class="profile-info">
-    <button type="button" class="btn change-info-button">
-      <a href=" {{ url_for('main.completed_tasks') }}"
-        ><i class="bi bi-list-task button-icon"></i>Completed Tasks</a
-      >
-    </button>
+    <a
+      href=" {{ url_for('main.completed_tasks') }}"
+      class="btn change-info-button"
+      ><i class="bi bi-list-task button-icon"></i>Completed Tasks</a
+    >
+  </div>
+
+  <div class="profile-info">
+    <a
+      href="{{ url_for('main.notifications') }}"
+      class="btn change-info-button"
+    >
+      <i class="bi bi-bell button-icon"></i>Notifications
+    </a>
   </div>
 
   <div class="profile-info">
