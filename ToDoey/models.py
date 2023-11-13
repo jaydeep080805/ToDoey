@@ -29,6 +29,7 @@ class UserInformation(db.Model, UserMixin):
     profile_pic = db.Column(db.String(), default=f"{basedir}static/images/default.png")
     creation_date = db.Column(db.Date, default=date.today())
     wants_notifications = db.Column(db.Boolean, default=True)
+    notification_type = db.Column(db.String(), default="email")
     notification_time = db.Column(db.String, default="1 hour")
     tasks = db.relationship(
         "TaskDataBase", order_by=TaskDataBase.due_date, back_populates="user"
