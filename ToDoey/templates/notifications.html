@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %}
+<h1>Notification Centre</h1>
+<hr />
+{% endblock %} {% block content %}
+<form method="post" class="notification-form">
+  {{ form.hidden_tag() }} {{ form.want_notifications.label }} {% for subfield in
+  form.want_notifications %}
+  <label class="radio-label">{{ subfield() }} {{ subfield.label }}</label>
+  {% endfor %}
+
+  <div class="notification-checkbox-container">
+    <p>Notification Type</p>
+    <div class="checkbox-row">
+      {{ form.notification_email.label }} {{ form.notification_email }}
+    </div>
+
+    <div class="checkbox-row">
+      {{ form.notification_text.label }} {{ form.notification_text }}
+    </div>
+  </div>
+
+  {{ form.submit(class_="submit-button btn") }}
+</form>
+
+{% endblock %}
