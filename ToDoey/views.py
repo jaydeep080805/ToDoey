@@ -15,7 +15,7 @@ from flask_login import (
     logout_user,
     login_required,
 )
-from datetime import date, datetime
+from datetime import date, timedelta
 from werkzeug.utils import secure_filename
 import uuid
 from os import path, makedirs
@@ -60,7 +60,7 @@ def home():
             due_date_provided = form.due_date.data
             if due_date_provided == None:
                 # set the due date for today
-                today = datetime.today()
+                today = date.today()
                 due_date_provided = today
 
             # create an object to add to the Task db
@@ -87,28 +87,50 @@ def home():
     except Exception as e:
         current_app.logger.error(f"Create Task error (Unknown): {e}")
 
-    other_tasks = []  # tasks that aren't due today
+    # Calculate the start and end dates for the next 7 days (excluding today)
+    today = date.today()
+    start_of_week = today + timedelta(days=1)  # Start from tomorrow
+    end_of_week = start_of_week + timedelta(days=6)
+
     due_today_tasks = []  # tasks that are due today
+    due_this_week = []  # tasks that are due this week (not including today)
+    task_list = []  # tasks that are due after the week
+
     if current_user.is_authenticated:
         # get all the tasks associated with that user
         tasks = current_user.tasks
 
         # filter the tasks by due date
-        other_tasks = [
+        # tasks that are due this week
+        due_this_week = [
             task
             for task in tasks
-            if task.due_date != date.today()
-            and task.completed != True  # if the task isn't completed and NOT due today
+            if task.due_date != today
+            and task.due_date >= start_of_week
+            and task.due_date <= end_of_week
+            and task.completed
+            != True  # if the task isn't completed and is due this week, NOT due today
         ]
+        # tasks due today
         due_today_tasks = [
             task
             for task in tasks
-            if task.due_date == date.today()
+            if task.due_date == today
             and task.completed != True  # if the task isn't completed and IS due today
+        ]
+        # tasks due ofter this week
+        task_list = [
+            task
+            for task in tasks
+            if task.due_date > end_of_week and task.completed != True
         ]
 
     return render_template(
-        "index.html", form=form, task_list=other_tasks, due_today_tasks=due_today_tasks
+        "index.html",
+        form=form,
+        due_this_week=due_this_week,
+        due_today_tasks=due_today_tasks,
+        task_list=task_list,
     )
 
 
@@ -124,6 +146,7 @@ def update_task():
         task_to_update = TaskDataBase.query.get(task_id)
         try:
             task_to_update.completed = True
+            task_to_update.date_completed = date.today()
             db.session.commit()
             return jsonify({"status": "success"}), 200
 
@@ -383,6 +406,13 @@ def change_pic():
             flash("No file selected", "error")
 
     return render_template("change_pic.html", form=form)
+
+
+@main.route("/completed-tasks")
+def completed_tasks():
+    tasks = [task for task in current_user.tasks if task.completed == True]
+    amount_of_tasks = len(tasks)
+    return render_template("completed-tasks.html", tasks=tasks, amount_of_tasks=amount_of_tasks)
 
 
 @main.route("/logout")
