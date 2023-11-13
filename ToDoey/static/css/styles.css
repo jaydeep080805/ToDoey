@@ -264,14 +264,21 @@ body {
 }
 
 /* so the password text which is just (****) can be next to the button */
-.profile-info p {
+.profile-info p#password-text {
     float: left;
+    transform: translate(0px, 10px);
 }
 
 /* sets the colour of the a tag nested in the buttons */
 .profile-info button a {
     color: white;
     text-decoration: none; /* Removes underline from links */
+}
+
+.test {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
 }
 
 /* the button next to the user's info (change name, email, etc.) */
@@ -438,6 +445,7 @@ ul .bi:hover {
         font-size: 22px;
     }
 
+    /* make the date input centered on mobile */
     .form-element-styling {
         align-self: center;
     }
@@ -449,10 +457,11 @@ ul .bi:hover {
     }
 
     /* make the password text centered */
-    .profile-info {
+    .profile-container .profile-info {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 25px;
     }
 
     /* set a smaller profile picture size */
