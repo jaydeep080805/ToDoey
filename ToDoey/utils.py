@@ -1,9 +1,11 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import UserInformation
 from flask_mail import Message
-from . import mail
 from threading import Thread
 from flask import current_app
+from sqlalchemy.orm import load_only
+
+from .models import UserInformation
+from . import mail
 
 
 # generates a hashed password
@@ -23,17 +25,14 @@ def verify_password(hashed_password, password_from_form):
 # else return False
 def validate_email(form_email):
     # Check if the email is unique in the database.
-    return (
-        False
-        if UserInformation.query.filter_by(email=form_email).first()
-        else form_email
-    )
+    exists = UserInformation.query.filter_by(email=form_email).options(load_only(UserInformation.id)).first()
+    return False if exists else form_email
 
 
 # get a user's account by their email
 def get_user_by_email(email):
     # Retrieve a user's account by their email from the database.
-    return UserInformation.query.filter_by(email=email).first()
+    return UserInformation.query.filter_by(email=email).options(load_only(UserInformation.id)).first()
 
 
 # get a user's account by their id
