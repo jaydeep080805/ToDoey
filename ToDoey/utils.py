@@ -25,14 +25,22 @@ def verify_password(hashed_password, password_from_form):
 # else return False
 def validate_email(form_email):
     # Check if the email is unique in the database.
-    exists = UserInformation.query.filter_by(email=form_email).options(load_only(UserInformation.id)).first()
+    exists = (
+        UserInformation.query.filter_by(email=form_email)
+        .options(load_only(UserInformation.id))
+        .first()
+    )
     return False if exists else form_email
 
 
 # get a user's account by their email
 def get_user_by_email(email):
     # Retrieve a user's account by their email from the database.
-    return UserInformation.query.filter_by(email=email).options(load_only(UserInformation.id)).first()
+    return (
+        UserInformation.query.filter_by(email=email)
+        .options(load_only(UserInformation.id))
+        .first()
+    )
 
 
 # get a user's account by their id
@@ -71,3 +79,32 @@ def updated_info_message(recipient, change):
     # This allows the application to continue running and respond to web requests
     # without waiting for the email to be sent.
     Thread(target=send_async_email, args=(app, msg)).start()
+
+
+# checks which notifications the user has on and sends the messages accordingly 
+def check_notification_type(recipient, change):
+    try:
+        if recipient.wants_notifications:
+            # index 0 is for email
+            # index 1 is for text
+            notification_type = recipient.notification_type.split(",")
+
+            # get the value for each notification type
+            # IMPORTANT: switch the values to bools
+            # as they will always evaluate to true
+            # since they're strings
+            email_notification = True if notification_type[0] == "True" else False
+            text_notification = True if notification_type[1] == "True" else False
+
+            if email_notification and text_notification:
+                updated_info_message(recipient.email, change)
+
+            elif email_notification:
+                print("email")
+                updated_info_message(recipient.email, change)
+
+            elif text_notification:
+                print("text")
+
+    except Exception as e:
+        current_app.logger.error(e)
