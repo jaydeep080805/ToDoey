@@ -38,7 +38,7 @@
       data-id="{{ task.id }}"
     />
     <label for="task-checkbox">{{task.task}}</label>
-    <p class="task-label">Due: {{task.due_date}}</p>
+    <p class="task-label">Due: <em>{{task.due_date}}</em></p>
     <!-- <p>{{task.category}}</p> -->
   </div>
   {% endfor %} {% endif %}
@@ -56,7 +56,7 @@
       data-id="{{ task.id }}"
     />
     <label for="task-checkbox">{{task.task}}</label>
-    <p class="task-label">Due: {{task.due_date}}</p>
+    <p class="task-label">Due: <em>{{task.due_date}}</em></p>
     <!-- <p>{{task.category}}</p> -->
   </div>
   {% endfor %} {% endif %}
@@ -74,7 +74,7 @@
       data-id="{{ task.id }}"
     />
     <label for="task-checkbox" class="task-name">{{task.task}}</label>
-    <p class="task-label">Due: {{task.due_date}}</p>
+    <p class="task-label">Due: <em>{{task.due_date}}</em></p>
     <!-- <p>{{task.category}}</p> -->
   </div>
   {% endfor %} {% endif %}
