@@ -7,6 +7,8 @@ from wtforms import (
     PasswordField,
     SelectField,
     FileField,
+    RadioField,
+    BooleanField,
 )
 from wtforms.validators import DataRequired
 
@@ -59,3 +61,12 @@ class ChangePasswordForm(FlaskForm):
 class ChangeProfilePic(FlaskForm):
     profile_pic = FileField("Profile picture")
     submit = SubmitField("Submit")
+
+
+class NotificationsForm(FlaskForm):
+    want_notifications = RadioField(
+        "Notifications", choices=[("yes", "Yes"), ("no", "No")]
+    )
+    notification_email = BooleanField("email")
+    notification_text = BooleanField("text")
+    submit = SubmitField("Save Changes")
