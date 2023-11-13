@@ -29,6 +29,7 @@ from .forms import (
     ChangeEmailForm,
     ChangePasswordForm,
     ChangeProfilePic,
+    NotificationsForm,
 )
 from .models import UserInformation, TaskDataBase
 from . import db
@@ -38,7 +39,7 @@ from .utils import (
     validate_email,
     get_user_by_email,
     get_user_by_id,
-    updated_info_message,
+    check_notification_type,
 )
 
 
@@ -281,8 +282,8 @@ def change_name():
         db.session.commit()
         flash("Successfully changed name", "success")
 
-        # send an email about the change
-        updated_info_message(current_user.email, "Username")
+        # check if the user wants notifications (sends them automatically)
+        check_notification_type(current_user, "Username")
         return redirect(url_for("main.profile"))
 
     return render_template("change_name.html", form=form)
@@ -302,12 +303,13 @@ def change_email():
             if validate_email(new_email):
                 current_user.email = validate_email(new_email)
 
+                # TODO let the user report if it is unauthorised
+                # check if the user wants notifications (sends them automatically)
+                # send the email before commiting the new one to the database
+                check_notification_type(current_user, "Email")
+
                 db.session.commit()
                 flash("Successfully changed email", "success")
-
-                # send an email to the previous email to let them know their email has changed
-                # TODO let the user report if it is unauthorised
-                updated_info_message(form.current_email.data, "Email")
 
                 return redirect(url_for("main.profile"))
 
@@ -345,8 +347,8 @@ def change_password():
                 db.session.commit()
                 flash("Password successfully changed", "success")
 
-                # send an email about the change
-                updated_info_message(current_user.email, "Password")
+                # check if the user wants notifications (sends them automatically)
+                check_notification_type(current_user, "Password")
                 return redirect(url_for("main.profile"))
 
             else:
@@ -409,10 +411,82 @@ def change_pic():
 
 
 @main.route("/completed-tasks")
+@login_required
 def completed_tasks():
     tasks = [task for task in current_user.tasks if task.completed == True]
     amount_of_tasks = len(tasks)
-    return render_template("completed-tasks.html", tasks=tasks, amount_of_tasks=amount_of_tasks)
+    return render_template(
+        "completed-tasks.html", tasks=tasks, amount_of_tasks=amount_of_tasks
+    )
+
+
+@main.route("/notification-preferance", methods=["GET", "POST"])
+@login_required
+def notifications():
+    form = NotificationsForm()
+
+    if request.method == "GET":
+        # Set form defaults for the notification toggle
+
+        # checks if the user wants notifications enabled
+        form.want_notifications.data = (
+            "yes"
+            if current_user.wants_notifications
+            else "no"  # 'yes' and 'no' corresponding to how the form handles it
+        )
+
+        # Split the notification_type string to get preferences
+        preferences = current_user.notification_type.split(",")
+
+        # Check if the user's preference includes email and/or text notifications
+        email_pref = preferences[0] == "True"
+        text_pref = preferences[1] == "True"
+
+        # Set the checkbox values
+        form.notification_email.data = email_pref
+        form.notification_text.data = text_pref
+
+    if form.validate_on_submit():
+        try:
+            wants_notifications = form.want_notifications.data
+            wants_emails = form.notification_email.data
+            wants_texts = form.notification_text.data
+
+            # if the user wants notifications
+            if wants_notifications == "yes":
+                current_user.wants_notifications = True
+
+                # if the user wants emails and texts
+                if wants_emails and wants_texts:
+                    current_user.notification_type = "email,text"
+
+                # if the user wants only emails
+                elif wants_emails:
+                    current_user.notification_type = "email"
+
+                # if the user wants only texts
+                elif wants_texts:
+                    current_user.notification_type = "text"
+
+                # save their preference as a comma separated value
+                current_user.notification_type = (
+                    f"{form.notification_email.data},{form.notification_text.data}"
+                )
+                db.session.commit()
+                flash("Successfully changed data", "success")
+                return redirect(url_for("main.profile"))
+
+            else:
+                current_user.wants_notifications = False
+                db.session.commit()
+                flash("Successfully changed data", "success")
+                return redirect(url_for("main.profile"))
+
+        except Exception as e:
+            current_app.logger.error(e)
+            flash("An unknown error has occured", "error")
+
+    return render_template("notifications.html", form=form)
 
 
 @main.route("/logout")
