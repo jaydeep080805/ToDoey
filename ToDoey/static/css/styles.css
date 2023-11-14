@@ -542,6 +542,15 @@ footer {
     padding: 12px 20px; /* Bigger tap target */
   }
 
+  .contact-form {
+    height: fit-content;
+    margin: 20px 0 50px 0;
+  }
+
+  .contact-message-box {
+    height: 10rem;
+  }
+
   .footer-container {
     width: 100%; /* Adjust width for mobile screens */
   }
