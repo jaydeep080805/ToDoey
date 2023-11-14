@@ -94,9 +94,11 @@ $(document).ready(function () {
   function showMobileNavBar() {
     // get the menu icon
     var menuIcon = $(".mobile-navbar i");
+    var mobileNavbarContainer = $(".mobile-navbar-container");
 
     menuIcon.click(function () {
-      $(".mobile-navbar-container").toggleClass("mobile-navbar-container-show");
+      // Toggle the visibility of the mobile navigation bar with a sliding animation
+      mobileNavbarContainer.slideToggle();
 
       // change the icon menu from list to cross and vice versa
       if (menuIcon.hasClass("bi-list")) {
