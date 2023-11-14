@@ -30,16 +30,20 @@ from .forms import (
     ChangePasswordForm,
     ChangeProfilePic,
     NotificationsForm,
+    ContactForm,
 )
 from .models import UserInformation, TaskDataBase
 from . import db
 from .utils import (
-    hash_password,
+    generate_hashed_password,
     verify_password,
-    validate_email,
-    get_user_by_email,
-    get_user_by_id,
+    is_email_valid,
+    get_user_by_email_from_db,
+    get_user_by_id_from_db,
     check_notification_type,
+    contact_email,
+    run_in_thread,
+    send_email_confirmation,
 )
 
 
@@ -167,6 +171,27 @@ def about():
     return render_template("about.html")
 
 
+@main.route("/contact-me", methods=["GET", "POST"])
+def contact():
+    form = ContactForm()
+
+    if current_user.is_authenticated:
+        form.email.data = current_user.email
+
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        subject = form.subject.data
+        message = form.message.data
+
+        if contact_email(name, email, subject, message):
+            flash("Successfully sent email", "success")
+            run_in_thread(target_function=send_email_confirmation(email))
+            return redirect(url_for("main.home"))
+
+    return render_template("contact.html", form=form)
+
+
 @main.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
     form = SignUpForm()
@@ -174,10 +199,10 @@ def sign_up():
     if form.validate_on_submit():
         # grab the information from the form
         name_to_add = form.name.data
-        email_to_add = validate_email(
+        email_to_add = is_email_valid(
             form.email.data
         )  # returns false if the email is invalid
-        password_to_add = hash_password(form.password.data)
+        password_to_add = generate_hashed_password(form.password.data)
 
         # if the email does exist then send a flash saying it exists
         try:
@@ -259,7 +284,7 @@ def profile():
     # TODO let users choose if they want notifications
 
     # gets the current users account by their email (my own function, utils.py)
-    user_info = get_user_by_email(current_user.email)
+    user_info = get_user_by_email_from_db(current_user.email)
 
     # get the users profile picture
     image_file = url_for("static", filename=f"/images/{current_user.profile_pic}")
@@ -273,7 +298,7 @@ def change_name():
 
     if form.validate_on_submit():
         # gets the current users account by their id (my own function, utils.py)
-        user_to_change = get_user_by_id(current_user.id)
+        user_to_change = get_user_by_id_from_db(current_user.id)
 
         # change their name
         user_to_change.name = form.name.data
@@ -300,8 +325,8 @@ def change_email():
             new_email = form.new_email.data
 
             # if the new email is not currently in the db (is ready to change)
-            if validate_email(new_email):
-                current_user.email = validate_email(new_email)
+            if is_email_valid(new_email):
+                current_user.email = is_email_valid(new_email)
 
                 # TODO let the user report if it is unauthorised
                 # check if the user wants notifications (sends them automatically)
@@ -341,7 +366,7 @@ def change_password():
             # if the two passwords from the form are the same (the user confirmed their change)
             if new_pass == confirm_pass:
                 # hash and salt the new password
-                current_user.password = hash_password(form.new_password.data)
+                current_user.password = generate_hashed_password(form.new_password.data)
 
                 # commit the changes and let the user know
                 db.session.commit()
