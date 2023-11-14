@@ -3,27 +3,42 @@ from flask_mail import Message
 from threading import Thread
 from flask import current_app
 from sqlalchemy.orm import load_only
+from os import environ
 
 from .models import UserInformation
 from . import mail
 
 
-# generates a hashed password
-def hash_password(password):
+# Define a function to handle threading
+def run_in_thread(target_function, *args):
+    thread = Thread(target=target_function, args=args)
+    thread.start()
+
+    if thread:
+        return True
+    else:
+        return False
+
+
+# Get the current Flask app context
+def get_current_app_context():
+    return current_app._get_current_object()
+
+
+# Generate a hashed password
+def generate_hashed_password(password):
     # Generate a hashed password using PBKDF2 with SHA-256 and a salt length of 16.
     return generate_password_hash(password, method="pbkdf2:sha256", salt_length=16)
 
 
-# checks a hashed password
+# Verify a hashed password
 def verify_password(hashed_password, password_from_form):
     # Check if the provided password matches the hashed password.
     return check_password_hash(hashed_password, password_from_form)
 
 
-# checks if an email is valid,
-# if it is then return the email,
-# else return False
-def validate_email(form_email):
+# Check if an email is valid, if it is, return the email; otherwise, return False
+def is_email_valid(form_email):
     # Check if the email is unique in the database.
     exists = (
         UserInformation.query.filter_by(email=form_email)
@@ -33,8 +48,8 @@ def validate_email(form_email):
     return False if exists else form_email
 
 
-# get a user's account by their email
-def get_user_by_email(email):
+# Get a user's account by their email from the database
+def get_user_by_email_from_db(email):
     # Retrieve a user's account by their email from the database.
     return (
         UserInformation.query.filter_by(email=email)
@@ -43,45 +58,70 @@ def get_user_by_email(email):
     )
 
 
-# get a user's account by their id
-def get_user_by_id(id):
+# Get a user's account by their ID from the database
+def get_user_by_id_from_db(id):
     # Retrieve a user's account by their ID from the database.
     return UserInformation.query.get(id)
 
 
-def send_async_email(app, msg):
+# Send a confirmation email to the recipient
+def send_email_confirmation(recipient):
+    app = get_current_app_context()
+    with app.app_context():
+        try:
+            msg = Message(
+                subject="Email Received",
+                recipients=[recipient],
+                body="We have received your email and will respond shortly.",
+            )
+            mail.send(msg)
+        except Exception as e:
+            current_app.logger.error(e)
+
+
+def send_asyc_email(app, msg):
     # Flask-Mail needs to run within an application context,
     with app.app_context():
         try:
             # Attempt to send the email.
             mail.send(msg)
+
         except Exception as e:
             # Log any exceptions that occur during the mail sending process.
             current_app.logger.error(f"An error occurred while sending an email: {e}")
 
 
-# function to send an email
-# takes the recipient and what information the user changed (name, email etc)
-def updated_info_message(recipient, change):
-    # Create a new message object with the subject, recipient, and body of the email.
+# Send an email to notify about updated information (e.g., name, email)
+def send_updated_info_email(recipient, change):
     msg = Message(
         subject=f"{change} Change",
         recipients=[recipient],
-        body=f"Your {change} has successfully been changed",
+        body=f"Your {change} has been successfully changed",
     )
 
-    # Retrieve the current Flask app instance.
-    # This is necessary because the new thread will not have access to the
-    # Flask app context by default.
-    app = current_app._get_current_object()
-
-    # Start a new thread to send the email.
-    # This allows the application to continue running and respond to web requests
-    # without waiting for the email to be sent.
-    Thread(target=send_async_email, args=(app, msg)).start()
+    app = get_current_app_context()
+    run_in_thread(send_asyc_email, app, msg, recipient)
 
 
-# checks which notifications the user has on and sends the messages accordingly 
+def contact_email(name, email, subject, message):
+    # Create a new message object with the subject, recipient, and body of the email.
+    msg = Message(
+        subject=subject,
+        recipients=[environ.get("EMAIL")],
+        body=f"{message} \n\nSent from {name}:{email}",
+    )
+
+    app = get_current_app_context()
+    email_thread = run_in_thread(send_asyc_email, app, msg)
+
+    if email_thread:
+        return True
+
+    else:
+        return False
+
+
+# checks which notifications the user has on and sends the messages accordingly
 def check_notification_type(recipient, change):
     try:
         if recipient.wants_notifications:
@@ -97,11 +137,11 @@ def check_notification_type(recipient, change):
             text_notification = True if notification_type[1] == "True" else False
 
             if email_notification and text_notification:
-                updated_info_message(recipient.email, change)
+                send_updated_info_email(recipient.email, change)
 
             elif email_notification:
                 print("email")
-                updated_info_message(recipient.email, change)
+                send_updated_info_email(recipient.email, change)
 
             elif text_notification:
                 print("text")
