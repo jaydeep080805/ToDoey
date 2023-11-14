@@ -100,7 +100,7 @@ def send_updated_info_email(recipient, change):
     )
 
     app = get_current_app_context()
-    run_in_thread(send_asyc_email, app, msg, recipient)
+    run_in_thread(send_asyc_email, app, msg)
 
 
 def contact_email(name, email, subject, message):
@@ -140,11 +140,10 @@ def check_notification_type(recipient, change):
                 send_updated_info_email(recipient.email, change)
 
             elif email_notification:
-                print("email")
                 send_updated_info_email(recipient.email, change)
 
             elif text_notification:
                 print("text")
-
+            
     except Exception as e:
         current_app.logger.error(e)
