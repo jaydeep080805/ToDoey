@@ -303,10 +303,16 @@ body {
   margin-top: 20px;
 }
 
-/* so the password text which is just (****) can be next to the button */
-.profile-info p#password-text {
-  float: left;
-  transform: translate(0px, 10px);
+.profile-info {
+  display: flex;
+}
+
+.profile-info:nth-last-child(1) {
+  margin-bottom: 30px;
+}
+
+.profile-info p {
+  margin: auto 0;
 }
 
 /* sets the colour of the a tag nested in the buttons */
@@ -438,6 +444,11 @@ footer {
     font-size: 20px; /* Increase base font size for readability on mobile */
   }
 
+  .flashes {
+    font-size: 1rem;
+    text-align: center;
+  }
+
   /* make sure the desktop nav bar doesn't show */
   .navbar-full {
     display: none;
@@ -533,7 +544,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 25px;
+    margin: 15px 0;
   }
 
   /* set a smaller profile picture size */
@@ -546,6 +557,10 @@ footer {
   .submit-button {
     width: 100%;
     padding: 12px 20px; /* Bigger tap target */
+  }
+
+  .profile-divider {
+    margin-top: 30px;
   }
 
   .contact-form {
