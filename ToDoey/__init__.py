@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_mail import Mail
+from flask_ckeditor import CKEditor
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -18,6 +19,7 @@ login_manager = LoginManager()
 csrf = CSRFProtect()
 migrate = Migrate()
 mail = Mail()
+ckeditor = CKEditor()
 
 # Set upload folder path for profile pictures
 UPLOAD_FOLDER = path.join("ToDoey", "static", "images")
@@ -53,6 +55,7 @@ def create_app():
     csrf.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
+    ckeditor.init_app(app)
 
     # Logging configuration
     if not app.debug:
