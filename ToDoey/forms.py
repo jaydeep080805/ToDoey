@@ -11,6 +11,7 @@ from wtforms import (
     BooleanField,
 )
 from wtforms.validators import DataRequired
+from flask_ckeditor import CKEditorField
 
 
 # Form for creating a new task
@@ -70,3 +71,11 @@ class NotificationsForm(FlaskForm):
     notification_email = BooleanField("email")
     notification_text = BooleanField("text")
     submit = SubmitField("Save Changes")
+
+
+class ContactForm(FlaskForm):
+    name = StringField("name", validators=[DataRequired()])
+    email = EmailField("email", validators=[DataRequired()])
+    subject = StringField("subject", validators=[DataRequired()])
+    message = CKEditorField("message", validators=[DataRequired()])
+    submit = SubmitField("Submit")
