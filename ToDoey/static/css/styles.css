@@ -221,10 +221,16 @@ body {
   color: var(--pink);
 }
 
+.master-task-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* the main container in index.html that holds all the tasks */
 .task-list-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 300px);
   grid-gap: 25px;
   padding: 10px;
   overflow: auto;
@@ -545,6 +551,10 @@ footer {
   .contact-form {
     height: fit-content;
     margin: 20px 0 50px 0;
+  }
+
+  .form-element-styling {
+    font-size: 1rem;
   }
 
   .contact-message-box {
