@@ -1,531 +1,566 @@
 /* Root Variables */
 :root {
-    /* Pink Color Definitions */
-    --pink: #ff69b4; /* Main pink color */
-    --pink-hover: #e04a95; /* Pink color on hover */
-    
-    /* Grey Navbar Colors */
-    --grey-navbar: #333; /* Background color of the navbar */
-    --grey-navbar-hover: #222222; /* Navbar background color on hover */
-    
-    /* Form and Text Colors */
-    --form-text-col: #fff; /* Text color in forms */
-    --form-element-background: #444444; /* Background color of form elements */
-    --form-background: #222; /* Background color of forms */
+  /* Pink Color Definitions */
+  --pink: #ff69b4; /* Main pink color */
+  --pink-hover: #e04a95; /* Pink color on hover */
 
-    /* Task Card Hover Color */
-    --task-card-hover: rgb(246, 84, 225); /* Task card background color on hover */
-    
-    /* Background Color */
-    --background-col: #121212; /* Page background color */
+  /* Grey Navbar Colors */
+  --grey-navbar: #333; /* Background color of the navbar */
+  --grey-navbar-hover: #222222; /* Navbar background color on hover */
+
+  /* Form and Text Colors */
+  --form-text-col: #fff; /* Text color in forms */
+  --form-element-background: #444444; /* Background color of form elements */
+  --form-background: #222; /* Background color of forms */
+
+  /* Task Card Hover Color */
+  --task-card-hover: rgb(
+    246,
+    84,
+    225
+  ); /* Task card background color on hover */
+
+  /* Background Color */
+  --background-col: #121212; /* Page background color */
 }
 
 /* Body Styles */
 body {
-    background-color: var(--background-col);
-    color: var(--pink);
-    font-family: "Montserrat", sans-serif;
-    accent-color: var(--pink);
+  background-color: var(--background-col);
+  color: var(--pink);
+  font-family: "Montserrat", sans-serif;
+  accent-color: var(--pink);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Flash Messages Styles */
 .flashes {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    width: 20%;
-    height: 50px;
-    min-width: 250px;
-    border-radius: 5px;
-    color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  width: 20%;
+  height: 50px;
+  min-width: 250px;
+  border-radius: 5px;
+  color: white;
 }
 
 /* flash success style */
 .success {
-    background-color: rgba(255, 105, 180, 0.4);
-    border: 2px solid var(--pink);
+  background-color: rgba(255, 105, 180, 0.4);
+  border: 2px solid var(--pink);
 }
 
 /* flash error style */
 .error {
-    background-color: rgba(255, 0, 0, 0.4);
-    border: 2px solid red;
+  background-color: rgba(255, 0, 0, 0.4);
+  border: 2px solid red;
 }
 
 /* Navbar Styles */
 .navbar-full {
-    width: 100%;
-    background-color: var(--grey-navbar);
-    display: grid;
-    grid-template-columns: 8fr 4fr;
+  width: 100%;
+  background-color: var(--grey-navbar);
+  display: grid;
+  grid-template-columns: 8fr 4fr;
 }
 
 .left-section-desktop-navbar {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .right-section-desktop-navbar {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 /* applies to both sides */
 .navbar-styling {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 /* navbar elements */
 .navbar-styling a {
-    padding: 10px 15px;
-    text-decoration: none;
-    color: var(--pink);
-    transition: background-color 0.6s;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: var(--pink);
+  transition: background-color 0.6s;
 }
 
 .navbar-styling a:hover {
-    background-color: var(--grey-navbar-hover);
-    cursor: pointer;
+  background-color: var(--grey-navbar-hover);
+  cursor: pointer;
 }
 
 .navbar-active {
-    background-color: var(--grey-navbar-hover);
+  background-color: var(--grey-navbar-hover);
 }
 
 /* Container Styles */
 /* holds all the main info (defined in base.html) */
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 75vh;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 75vh;
+  margin-top: 20px;
 }
 
 /* Keyframes for Strikethrough Animation */
 @keyframes strikethrough {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 #ToDoey {
-    position: relative;
+  position: relative;
 }
 
 #ToDoey::after {
-    content: '';
-    position: absolute;
-    top: 50%; /* Adjust this as needed */
-    left: 0;
-    width: 0;
-    height: 2px; /* Adjust thickness of the line */
-    background: var(--pink); /* Color of the strikethrough */
-    animation: strikethrough 1s ease forwards;
+  content: "";
+  position: absolute;
+  top: 50%; /* Adjust this as needed */
+  left: 0;
+  width: 0;
+  height: 2px; /* Adjust thickness of the line */
+  background: var(--pink); /* Color of the strikethrough */
+  animation: strikethrough 1s ease-in-out forwards;
 }
 
 /* Form Card Styles */
 .form-card {
-    border: solid 4px var(--pink);
-    border-radius: 10px;
-    border-style: double;
-    background-color: var(--form-background);
-    padding: 25px;
-    box-shadow: 5px 5px var(--pink);
-    margin-top: 10px;
-    width: 50%;
-    height: 100%;
+  border: solid 4px var(--pink);
+  border-radius: 10px;
+  border-style: double;
+  background-color: var(--form-background);
+  padding: 25px;
+  box-shadow: 5px 5px var(--pink);
+  margin-top: 10px;
+  width: 50%;
+  height: 100%;
 }
 
 /* Styles for the Container Holding Form Elements */
 .form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
 }
 
 /* Styles for Individual Form Elements */
 .form-element {
-    display: flex;
-    flex-direction: column;
-    height: max-content;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  justify-content: space-evenly;
 }
 
 /* changes only the submit button on the task form */
 .form-element:nth-last-child(1) {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 /* styles all the form elements */
 .form-element-styling {
-    border-radius: 2px;
-    background-color: var(--form-element-background);
-    color: var(--form-text-col);
-    margin-bottom: 10px;
-    width: 100%;
+  border-radius: 2px;
+  background-color: var(--form-element-background);
+  color: var(--form-text-col);
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 /* Submit Button Styles */
 .submit-button {
-    background-color: var(--pink);
-    color: var(--form-text-col);
-    margin: 0 auto;
-    width: 50%;
+  background-color: var(--pink);
+  color: var(--form-text-col);
+  margin: 0 auto;
+  width: 50%;
 }
 
 .btn:hover {
-    background-color: var(--pink-hover);
-    color: #121212;
+  background-color: var(--pink-hover);
+  color: #383838;
 }
 
 /* the form in change_password.html */
 .password-container {
-    position: relative;
+  position: relative;
 }
 
 /* <i> tag to allow the user to see their password */
 #togglePassword {
-    position: absolute;
-    opacity: 0.5;
-    align-self: flex-end;
-    color: var(--form-text-col);
-    right: 10px;
+  position: absolute;
+  opacity: 0.5;
+  align-self: flex-end;
+  color: var(--form-text-col);
+  right: 10px;
 }
 
 #togglePassword:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 #togglePassword.active {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* the text on the sign up and login forms that redirects you if you have an acc/need to make one */
 .form-text {
-    font-size: 14px;
-    color: var(--pink);
+  font-size: 14px;
+  color: var(--pink);
 }
 
 /* the main container in index.html that holds all the tasks */
 .task-list-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 25px;
-    padding: 10px;
-    overflow: auto;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 25px;
+  padding: 10px;
+  overflow: auto;
+  width: 100%;
 }
 
 .task-list-container:nth-last-child(1) {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 /* Task List Heading Styles */
 .task-list-heading {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 /* Task Card Styles */
 .task-card {
-    border: 2px solid var(--pink);
-    border-radius: 4px;
-    padding: 20px;
-    transition: ease 0.3s;
+  border: 2px solid var(--pink);
+  border-radius: 4px;
+  padding: 20px;
+  transition: ease 0.3s;
 }
 
 .task-card:hover {
-    background-color: var(--task-card-hover);
-    color: white;
-    border-color: white;
-    transform: scale(1.04);
-    box-shadow: -5px -5px var(--pink);
+  background-color: var(--task-card-hover);
+  color: white;
+  border-color: white;
+  transform: scale(1.04);
+  box-shadow: -5px -5px var(--pink);
 }
 
 .task-label {
-    transform: translate(0, 15px);
+  transform: translate(0, 15px);
 }
 
 .task-checkbox {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 /* profile container for profile.html */
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  gap: 10px;
 }
 
 /* Profile Picture Styles */
 .profile-picture {
-    width: 15rem; 
-    height: 15rem; /* should match the width for a perfect circle */
-    border-radius: 50%;
-    object-fit: cover; /* This will ensure the image covers the area without stretching */
-    max-width: 100%; /* prevents the image from exceeding the width of its container */
-    max-height: 100%;
+  width: 15rem;
+  height: 15rem; /* should match the width for a perfect circle */
+  border-radius: 50%;
+  object-fit: cover; /* This will ensure the image covers the area without stretching */
+  max-width: 100%; /* prevents the image from exceeding the width of its container */
+  max-height: 100%;
 }
 
 /* make the picture centered */
 .profile-picture-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 /* add space between pic and button */
 .profile-container .change-profile-pic-button {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 /* so the password text which is just (****) can be next to the button */
 .profile-info p#password-text {
-    float: left;
-    transform: translate(0px, 10px);
+  float: left;
+  transform: translate(0px, 10px);
 }
 
 /* sets the colour of the a tag nested in the buttons */
 .profile-info a {
-    color: white;
-    text-decoration: none; /* Removes underline from links */
+  color: white;
+  text-decoration: none; /* Removes underline from links */
 }
 
 .profile-divider {
-    display: flex;
-    flex-direction: column;
-    padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 }
 
 /* the button next to the user's info (change name, email, etc.) */
 .change-info-button {
-    padding: 10px 20px; /* Adjust as needed */
-    width: auto; /* This makes the button's width content-dependent */
-    margin: 0px 10px;
-    background-color: var(--pink);
+  padding: 10px 20px; /* Adjust as needed */
+  width: auto; /* This makes the button's width content-dependent */
+  margin: 0px 10px;
+  background-color: var(--pink);
 }
 
 /* the <i> tags inside the buttons on the user's profile */
 .button-icon {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 
 /* the submit button on the form for uploading profile pics */
 .submit-file {
-    margin: 12px 0;
-}
-
-/* footer (: */
-footer {
-    background-color: var(--grey-navbar);
-    bottom: 0;
-    width: 100%;
-    min-height: 20rem;
-}
-
-.footer-list-title {
-    font-size: 2rem;
-    color: white;
-}
-
-.footer-container {
-    display: grid;
-    grid-template-columns: repeat(4, 3fr);
-}
-
-.footer-col {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10%;
-    text-align: left;
-}
-
-.footer-col hr {
-    width: 35%;
-    transform: translate(20px, -16px);
-}
-
-.footer-list-item {
-    color: rgb(170, 170, 170);
-    width: min-content;
-    transition: ease 0.3s;
-    cursor: pointer;
-}
-
-.footer-list-item:hover {
-    transform: translate(10px, 0);
-    color: white;
-}
-
-ul .bi {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    background-color: rgba(255, 255, 255, 0.2);
-    margin: 0 10px 10px 0;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 50%;
-    color: #ffffff;
-    transition: all 0.5s ease;
-}
-
-ul .bi:hover {
-    color: #24262b;
-    background-color: #ffffff;
+  margin: 12px 0;
 }
 
 .notification-form {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-    width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  width: fit-content;
 }
 
 .notification-form .submit-button {
-    width: 100%;
-    margin-top: 10px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .notification-checkbox-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styling for the footer section */
+footer {
+  background-color: var(
+    --grey-navbar
+  ); /* Background color using a custom variable */
+  width: 100%; /* Full width of the footer */
+  min-height: 10rem; /* Minimum height of the footer */
+  margin-top: auto; /* Automatically adjust top margin for positioning */
+}
+
+/* Styles for the container within the footer */
+.footer-container {
+  width: 25%; /* Set the width of the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Styles for the title within the footer */
+.footer-list-title {
+  font-size: 2rem; /* Font size for the title */
+  color: white; /* Text color for the title */
+}
+
+/* Styles for the footer column */
+.footer-col {
+  bottom: 0; /* Position the footer at the bottom of its container */
+  display: flex; /* Use a flex display for its children */
+  align-items: center; /* Center the content vertically within the column */
+  justify-content: center; /* Center the content horizontally within the column */
+  flex-direction: column; /* Arrange the child elements in a vertical column */
+  height: 10rem; /* Set the height of the footer column */
+}
+
+/* Styles for social links within the footer */
+.footer-col .social-links a {
+  display: inline-block;
+  height: 40px; /* Height of the social link icons */
+  width: 40px; /* Width of the social link icons */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Background color with transparency */
+  margin: 0 10px 10px 0; /* Margin around the social link icons */
+  text-align: center;
+  line-height: 40px; /* Line height to vertically center the icon */
+  border-radius: 50%; /* Rounded shape for the icons */
+  color: #ffffff; /* Text color of the icons */
+  transition: all 0.5s ease; /* Smooth transition effect on hover */
+}
+
+/* Styles for social links on hover within the footer */
+.footer-col .social-links a:hover {
+  color: #24262b; /* Text color on hover */
+  background-color: #ffffff; /* Background color on hover */
+}
+
+/* Styles for the horizontal line separator within the footer */
+.footer-col hr {
+  position: relative;
+  display: block;
+  background: rgb(247, 102, 102); /* Background color of the separator */
+  height: 3px; /* Height of the separator line */
+  width: 100%; /* Full width of the separator */
 }
 
 /* make sure the mobile nav bar doesn't display */
 .mobile-navbar {
-    display: none;
+  display: none;
+}
+
+.contact-message-box {
+  height: 10rem;
 }
 
 @media (max-width: 768px) {
-    body {
-        font-size: 20px; /* Increase base font size for readability on mobile */
-    }
+  body {
+    font-size: 20px; /* Increase base font size for readability on mobile */
+  }
 
-    /* make sure the desktop nav bar doesn't show */
-    .navbar-full {
-        display: none;
-    }
+  /* make sure the desktop nav bar doesn't show */
+  .navbar-full {
+    display: none;
+  }
 
-    /* styling for the mobile nav bar */
-    .mobile-navbar {
-        display: block;
-        width: 100vw;
-        background-color: var(--grey-navbar);
-        padding: 10px;
-        font-size: 18px;
-    }
+  /* styling for the mobile nav bar */
+  .mobile-navbar {
+    display: block;
+    width: 100vw;
+    background-color: var(--grey-navbar);
+    padding: 10px;
+    font-size: 18px;
+  }
 
-    /* styling for the bootstrap icons */
-    .bi {
-        font-size: 26px;
-    }
+  /* styling for the bootstrap icons */
+  .bi {
+    font-size: 26px;
+  }
 
-    /* make the first element of the drop-down navbar have a margin so it doesn't look cramped */
-    .mobile-navbar-container a:nth-child(1) {
-        margin-top: 10px;
-    }
+  /* make the first element of the drop-down navbar have a margin so it doesn't look cramped */
+  .mobile-navbar-container a:nth-child(1) {
+    margin-top: 10px;
+  }
 
-    /* drop-down menu elements styling */
-    .mobile-navbar a {
-        color: var(--pink);
-        display: block;
-        padding: 5px 0;
-    }
+  /* drop-down menu elements styling */
+  .mobile-navbar a {
+    color: var(--pink);
+    display: block;
+    padding: 5px 0;
+  }
 
-    /* stops the menu being shown all the time */
-    .mobile-navbar-container {
-        display: none;
-    }
+  /* stops the menu being shown all the time */
+  .mobile-navbar-container {
+    display: none;
+  }
 
-    /* access this from JavaScript to make the navbar show when clicked */
-    .mobile-navbar-container-show {
-        display: block;
-    }
+  /* access this from JavaScript to make the navbar show when clicked */
+  .mobile-navbar-container-show {
+    display: block;
+  }
 
-    /* title */
-    #ToDoey .task-list-heading {
-        font-size: 46px;
-    }
+  /* title */
+  #ToDoey .task-list-heading {
+    font-size: 46px;
+  }
 
-    /* set the width of the container */
-    .container {
-        max-width: 100%;
-        text-align: center;
-    }
+  /* set the width of the container */
+  .container {
+    max-width: 100%;
+    text-align: center;
+  }
 
-    /* make the tasks show in a list */
-    .task-list-container {
-        grid-template-columns: repeat(1, 300px);
-        justify-content: center;
-    }
+  /* make the tasks show in a list */
+  .task-list-container {
+    grid-template-columns: repeat(1, 300px);
+    justify-content: center;
+  }
 
-    .task-list-heading {
-        font-size: 40px;
-    }
+  .task-list-heading {
+    font-size: 40px;
+  }
 
-    /* make the tasks cards stretch to take the 300px */
-    .task-card {
-        justify-self: stretch;
-    }
+  /* make the tasks cards stretch to take the 300px */
+  .task-card {
+    justify-self: stretch;
+  }
 
-    /* add margin to the last task to add space between the footer */
-    .task-card:nth-last-child(1) {
-        margin-bottom: 50px;
-    }
+  /* add margin to the last task to add space between the footer */
+  .task-card:nth-last-child(1) {
+    margin-bottom: 50px;
+  }
 
-    /* new task form */
-    .form-card {
-        width: 100%;
-        height: 400px;
-        font-size: 22px;
-    }
+  /* new task form */
+  .form-card {
+    width: 100%;
+    height: 400px;
+    font-size: 22px;
+  }
 
-    /* make the date input centered on mobile */
-    .form-element-styling {
-        align-self: center;
-    }
+  /* make the date input centered on mobile */
+  .form-element-styling {
+    align-self: center;
+  }
 
-    /* make the profile page container be centered  */
-    .profile-container {
-        padding: 20px;
-        align-items: center;
-    }
+  /* make the profile page container be centered  */
+  .profile-container {
+    padding: 20px;
+    align-items: center;
+  }
 
-    /* make the password text centered */
-    .profile-container .profile-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 25px;
-    }
+  /* make the password text centered */
+  .profile-container .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+  }
 
-    /* set a smaller profile picture size */
-    .profile-picture {
-        width: 120px; /* smaller size for smaller screens */
-        height: 120px; /* should match the width */
-    }
-    
-    /* make the submit button on the profile picture bigger */
-    .submit-button {
-        width: 100%;
-        padding: 12px 20px; /* Bigger tap target */
-    }
+  /* set a smaller profile picture size */
+  .profile-picture {
+    width: 120px; /* smaller size for smaller screens */
+    height: 120px; /* should match the width */
+  }
 
-    footer {
-        display: none;
-    }
+  /* make the submit button on the profile picture bigger */
+  .submit-button {
+    width: 100%;
+    padding: 12px 20px; /* Bigger tap target */
+  }
+
+  .footer-container {
+    width: 100%; /* Adjust width for mobile screens */
+  }
+
+  .footer-list-title {
+    font-size: 2rem; /* Reduce font size for mobile */
+  }
+
+  .footer-col {
+    /* Optional: Adjust flex properties for better mobile layout */
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-top: 2.5rem;
+  }
+
+  .footer-col .social-links a {
+    width: 60px; /* Adjust icon size for mobile */
+    height: 60px;
+    line-height: 55px;
+    font-size: 2rem;
+  }
 }
