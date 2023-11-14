@@ -19,5 +19,31 @@
 *   Flask-WTF
 *   Flask-Mail
 
+### Environment Setup
+```
+git clone https://github.com/jaydeep080805/ToDoey.git
+```
+```
+cd ToDoey
+```
+```
+pip install -r requirements.txt
+```
+### Configuration
+1. Create a .env file in the root directory.
+2. Set the following environment variables:
+```
+SECRET_KEY=<your_secret_key>
+DATABASE_URL=<your_database_url>
+EMAIL=<your_email>
+EMAIL_PASSWORD=<your_email_password>
+```
+### Usage
+1. Start the Flask server:
+```
+flask run
+```
+2. Open a web browser and navigate to http://127.0.0.1:5000/ to use the application.
+
 ## Contributing
 ###### Contributions to ToDoey are welcome! Please follow the standard fork-clone-branch-pull request workflow.
