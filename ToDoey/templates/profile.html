@@ -18,21 +18,21 @@
   </div>
 
   <div class="profile-info">
-    {{ user_info.name }}
+    <p class="profile-info-text">{{ user_info.name }}</p>
     <a href="{{ url_for('main.change_name') }}" class="btn change-info-button"
       ><i class="bi bi-bar-chart-steps button-icon"></i>Change Name</a
     >
   </div>
 
   <div class="profile-info">
-    {{ user_info.email }}
+    <p class="profile-info-text">{{ user_info.email }}</p>
     <a href="{{ url_for('main.change_email') }}" class="btn change-info-button"
       ><i class="bi bi-envelope button-icon"></i>Change Email</a
     >
   </div>
 
   <div class="profile-info">
-    <p id="password-text">********</p>
+    <p class="profile-info-text" style="filter: blur(5px);">********</p>
     <a
       href="{{ url_for('main.change_password') }}"
       class="btn change-info-button"
