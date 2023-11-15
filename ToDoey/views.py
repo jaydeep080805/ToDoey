@@ -45,6 +45,7 @@ from .utils import (
     run_in_thread,
     send_email_confirmation,
     get_filtered_tasks,
+    check_if_password_secure,
 )
 
 
@@ -93,10 +94,17 @@ def home():
     except Exception as e:
         current_app.logger.error(f"Create Task error (Unknown): {e}")
 
+    due_today_tasks = []
+    due_this_week = []
+    task_list = []
+
     if current_user.is_authenticated:
-        due_today_tasks, due_this_week, task_list = get_filtered_tasks(
-            current_user.tasks
-        )
+        try:
+            due_today_tasks, due_this_week, task_list = get_filtered_tasks(
+                current_user.tasks
+            )
+        except Exception as e:
+            current_app.logger.error(e)
 
     return render_template(
         "index.html",
@@ -274,6 +282,7 @@ def profile():
 
     # get the users profile picture
     image_file = url_for("static", filename=f"/images/{current_user.profile_pic}")
+    image_file = image_file.split("/")[-1]
     return render_template("profile.html", user_info=user_info, image_file=image_file)
 
 
