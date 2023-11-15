@@ -217,15 +217,22 @@ def sign_up():
 
         # try block incase of any database errors
         try:
-            db.session.add(user_login_details)
-            db.session.commit()
+            # check if the password is secure (contains special character etc)
+            # make sure the original password from the form is checked and not the hashed pass
+            if check_if_password_secure(form.password.data) is True:
+                db.session.add(user_login_details)
+                db.session.commit()
+                flash("Successfully Created Account!", "success")
+                login_user(user_login_details)
+                return redirect(url_for("main.home"))
+
+            else:
+                # save the error message in a variable and flash it
+                error_message = check_if_password_secure(form.password.data)
+                flash(error_message, "error")
+
         except Exception as e:
             current_app.logger.error(f"Database error (Unknown): {e}")
-
-        flash("Successfully Created Account!", "success")
-        login_user(user_login_details)
-
-        return redirect(url_for("main.home"))
 
     return render_template("sign_up.html", form=form)
 
@@ -358,21 +365,33 @@ def change_password():
             new_pass = form.new_password.data
             confirm_pass = form.confirm_password.data
 
-            # if the two passwords from the form are the same (the user confirmed their change)
-            if new_pass == confirm_pass:
-                # hash and salt the new password
-                current_user.password = generate_hashed_password(form.new_password.data)
+            # check if their new password is secure
+            if check_if_password_secure(new_pass) is True:
+                # if the two passwords from the form are the same (the user confirmed their change)
+                if new_pass == confirm_pass:
+                    # hash and salt the new password
+                    current_user.password = generate_hashed_password(
+                        form.new_password.data
+                    )
 
-                # commit the changes and let the user know
-                db.session.commit()
-                flash("Password successfully changed", "success")
+                    # commit the changes and let the user know
+                    db.session.commit()
+                    flash("Password successfully changed", "success")
 
-                # check if the user wants notifications (sends them automatically)
-                check_notification_type(current_user, "Password")
-                return redirect(url_for("main.profile"))
+                    # check if the user wants notifications (sends them automatically)
+                    check_notification_type(current_user, "Password")
+                    return redirect(url_for("main.profile"))
 
+                # if the passwords aren't matching
+                else:
+                    flash("Passwords do not match", "error")
+
+            # if the password isn't secure
             else:
-                flash("Passwords do not match", "error")
+                error_message = check_if_password_secure(new_pass)
+                flash(error_message, "error")
+
+        # if their password from the form doesn't match their current password
         else:
             flash("Incorrect Password", "error")
 
