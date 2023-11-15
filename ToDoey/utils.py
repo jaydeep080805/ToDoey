@@ -18,8 +18,8 @@ def get_current_app_context():
 
 
 # Define a function to handle threading
-def run_in_thread(target_function, *args):
-    thread = Thread(target=target_function, args=args)
+def run_in_thread(target_function, *args, **kwargs):
+    thread = Thread(target=target_function, args=args, kwargs=kwargs)
     thread.start()
 
     if thread:
@@ -115,67 +115,54 @@ def get_user_by_id_from_db(id):
 
 
 # =========== NOTIFICATION FUNCTIONS =========== #
-# Send a confirmation email to the recipient
-# used when the user uses the contact form
-def send_email_confirmation(recipient):
-    app = get_current_app_context()
-    with app.app_context():
-        try:
-            msg = Message(
-                subject="Email Received",
-                recipients=[recipient],
-                body="We have received your email and will respond shortly.",
-            )
-            mail.send(msg)
-        except Exception as e:
-            current_app.logger.error(e)
-
-
 # send email to user about account changes
-def send_asyc_email(app, msg):
+def send_asyc_email(subject, recipient, body, **kwargs):
     # Flask-Mail needs to run within an application context,
+    if "app" in kwargs:
+        app = kwargs["app"]
+
+    else:
+        app = get_current_app_context()
+
     with app.app_context():
         try:
-            # Attempt to send the email.
-            mail.send(msg)
+            # confimation email for contact form
+            if "name" in kwargs and "confirmation_message" in kwargs:
+                msg = Message(
+                    subject=f"{subject}",
+                    recipients=[recipient],
+                    body=f"{kwargs['confirmation_message']}",
+                )
+                mail.send(msg)
+                return True
+
+            # email sent to me from contact form
+            elif "name" in kwargs:
+                msg = Message(
+                    subject=f"{subject}",
+                    recipients=[environ.get("EMAIL")],
+                    body=f"{body}\n\n{kwargs['name']}:{recipient}",
+                )
+                mail.send(msg)
+                return True
+
+            # changing info
+            else:
+                msg = Message(
+                    subject=f"{subject}",
+                    recipients=[recipient],
+                    body=f"{body} has been changed successfully",
+                )
+                mail.send(msg)
+                return True
 
         except Exception as e:
             # Log any exceptions that occur during the mail sending process.
             current_app.logger.error(f"An error occurred while sending an email: {e}")
 
 
-# Send an email to notify about updated information (e.g., name, email)
-def send_updated_info_email(recipient, change):
-    msg = Message(
-        subject=f"{change} Change",
-        recipients=[recipient],
-        body=f"Your {change} has been successfully changed",
-    )
-
-    app = get_current_app_context()
-    run_in_thread(send_asyc_email, app, msg)
-
-
-def contact_email(name, email, subject, message):
-    # Create a new message object with the subject, recipient, and body of the email.
-    msg = Message(
-        subject=subject,
-        recipients=[environ.get("EMAIL")],
-        body=f"{message} \n\nSent from {name}:{email}",
-    )
-
-    app = get_current_app_context()
-    email_thread = run_in_thread(send_asyc_email, app, msg)
-
-    if email_thread:
-        return True
-
-    else:
-        return False
-
-
 # checks which notifications the user has on and sends the messages accordingly
-def check_notification_type(recipient, change):
+def check_notification_type(recipient, subject, body):
     try:
         if recipient.wants_notifications:
             # index 0 is for email
@@ -184,16 +171,17 @@ def check_notification_type(recipient, change):
 
             # get the value for each notification type
             # IMPORTANT: switch the values to bools
-            # as they will always evaluate to true
-            # since they're strings
+            # as they will always evaluate to true since they're strings
             email_notification = True if notification_type[0] == "True" else False
             text_notification = True if notification_type[1] == "True" else False
 
+            app = get_current_app_context()
+
             if email_notification and text_notification:
-                send_updated_info_email(recipient.email, change)
+                run_in_thread(send_asyc_email, subject, recipient.email, body, app=app)
 
             elif email_notification:
-                send_updated_info_email(recipient.email, change)
+                run_in_thread(send_asyc_email, subject, recipient.email, body, app=app)
 
             elif text_notification:
                 print("text")
