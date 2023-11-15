@@ -148,4 +148,45 @@ $(document).ready(function () {
     });
   }
   showMobileNavBar();
+
+  // Function to switch the website theme
+  function switchTheme(theme) {
+    // Update CSS variables to reflect the chosen theme
+    document.documentElement.style.setProperty(
+      "--primary-color",
+      `var(--${theme})`
+    );
+    document.documentElement.style.setProperty(
+      "--hover-color",
+      `var(--${theme}-hover)`
+    );
+    document.documentElement.style.setProperty(
+      "--task-card-hover-color",
+      `var(--${theme}-task-card-hover)`
+    );
+
+    // Save the theme to Local Storage for persistence
+    localStorage.setItem("theme", theme);
+  }
+
+  // Attempt to retrieve and apply the saved theme when the page loads
+  var savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    switchTheme(savedTheme);
+  }
+
+  // Selecting all elements with the 'theme' class for event handling
+  var themes = $(".theme");
+
+  // Event handler for theme buttons
+  themes.on("click", function () {
+    // Retrieve the theme data attribute from the clicked button
+    var theme = $(this).data("theme");
+    // Apply the selected theme
+    switchTheme(theme);
+
+    // Remove 'active-theme' class from all theme buttons and set it to the current one
+    themes.removeClass("active-theme");
+    $(this).addClass("active-theme");
+  });
 });
