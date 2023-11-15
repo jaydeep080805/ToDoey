@@ -28,6 +28,7 @@ $(document).ready(function () {
   $(".task-checkbox").change(function () {
     // if there is a change then check if its checked
     var taskCard = $(this).closest(".task-card");
+
     if ($(this).is(":checked")) {
       // grab the id number
       var taskId = $(this).data("id"); // when using .data() you only need the ending and DO NOT need to put "data-id" (:
@@ -41,11 +42,47 @@ $(document).ready(function () {
         data: JSON.stringify({
           task_id: taskId,
         }),
+
         success: function (response) {
           // If the server responds with success, fade out and remove the task card
           taskCard.fadeOut(1000, function () {
             // remove it from the dom
             $(this).remove();
+
+            try {
+              // Define a mapping of response properties to their corresponding heading IDs
+              // object
+              const taskMappings = {
+                due_today_tasks: "#due-today-heading",
+                due_this_week_tasks: "#due-this-week-heading",
+                task_list_tasks: "#due-later-heading",
+              };
+
+              // Loop over each task list in the mapping
+              // Object.entries being similar to zip() in python
+              // key difference being it takes an object and turns it into a list
+
+              // Object.entries(taskMappings)) will return:
+              // [["due_today_tasks", "#due-today-heading"], ["due_this_week_tasks", "#due-this-week-heading"], ["task_list_tasks", "#due-later-heading"]]
+              for (const [taskList, headingId] of Object.entries(
+                taskMappings
+              )) {
+                if (
+                  // check if the taskList's actually exist
+                  // e.g. does is "due_today_tasks" in the response sent by flask
+                  response.hasOwnProperty(taskList) &&
+                  response[taskList] === 0
+                ) {
+                  $(headingId).css("display", "none");
+                }
+              }
+
+              console.log(response);
+            } catch (error) {
+              console.log(error);
+            }
+
+            console.log(response);
           });
         },
         else(error) {
