@@ -28,7 +28,7 @@
 <div class="master-task-container">
   <h1 class="task-list-heading">Task List:</h1>
   {% if due_today_tasks %}
-  <h1 class="task-list-heading">Due Today:</h1>
+  <h1 class="task-list-heading" id="due-today-heading">Due Today:</h1>
   <div class="task-list-container">
     {% for task in due_today_tasks %}
     <div class="task-card">
@@ -39,14 +39,14 @@
         data-id="{{ task.id }}"
       />
       <label for="task-checkbox">{{task.task}}</label>
-      <p class="task-label">Due: <em>{{task.due_date}} (today)</em></p>
       <!-- <p>{{task.category}}</p> -->
+      <p class="task-label">Due: <em>{{task.due_date}} (today)</em></p>
     </div>
     {% endfor %} {% endif %}
   </div>
 
   {% if due_this_week %}
-  <h1 class="task-list-heading">Due This Week:</h1>
+  <h1 class="task-list-heading" id="due-this-week-heading">Due This Week:</h1>
   <div class="task-list-container">
     {% for task in due_this_week %}
     <div class="task-card">
@@ -64,7 +64,7 @@
   </div>
 
   {% if task_list %}
-  <h1 class="task-list-heading">Due Later:</h1>
+  <h1 class="task-list-heading" id="due-later-heading">Due Later:</h1>
   <div class="task-list-container">
     {% for task in task_list %}
     <div class="task-card">
