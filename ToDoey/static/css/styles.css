@@ -230,7 +230,7 @@ body {
 /* the main container in index.html that holds all the tasks */
 .task-list-container {
   display: grid;
-  grid-template-columns: repeat(4, 300px);
+  grid-template-columns: repeat(4, minmax(150px, 300px));
   grid-gap: 25px;
   padding: 10px;
   overflow: auto;
@@ -263,7 +263,7 @@ body {
 }
 
 .task-label {
-  transform: translate(0, 15px);
+  padding-top: 10px;
 }
 
 .task-checkbox {
@@ -372,6 +372,7 @@ footer {
   width: 100%; /* Full width of the footer */
   min-height: 10rem; /* Minimum height of the footer */
   margin-top: auto; /* Automatically adjust top margin for positioning */
+  padding: 30px 0;
 }
 
 /* Styles for the container within the footer */
@@ -439,6 +440,28 @@ footer {
   height: 10rem;
 }
 
+@media (min-width: 801px) {
+  .flashes {
+    width: 25%;
+  }
+
+  .contact-form {
+    margin-bottom: 50px;
+  }
+
+  .footer-col .social-links a {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    font-size: 1.3rem;
+  }
+
+  #togglePassword {
+    transform: translate(0, 3px);
+  }
+}
+
+/* mobile media query */
 @media (max-width: 768px) {
   body {
     font-size: 20px; /* Increase base font size for readability on mobile */
