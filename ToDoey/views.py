@@ -15,7 +15,7 @@ from flask_login import (
     logout_user,
     login_required,
 )
-from datetime import date, timedelta
+from datetime import date
 from werkzeug.utils import secure_filename
 import uuid
 from os import path, makedirs
@@ -41,11 +41,9 @@ from .utils import (
     get_user_by_email_from_db,
     get_user_by_id_from_db,
     check_notification_type,
-    contact_email,
-    run_in_thread,
-    send_email_confirmation,
     get_filtered_tasks,
     check_if_password_secure,
+    send_asyc_email,
 )
 
 
@@ -178,9 +176,19 @@ def contact():
         subject = form.subject.data
         message = form.message.data
 
-        if contact_email(name, email, subject, message):
+        # function to send an email
+        # returns true if it succeeds
+        if send_asyc_email(subject, email, message, name=name):
             flash("Successfully sent email", "success")
-            run_in_thread(target_function=send_email_confirmation(email))
+
+            # send a confimation email to the user
+            send_asyc_email(
+                subject,
+                email,
+                message,
+                name=name,
+                confirmation_message="We have recieved your message and will respond shortly",
+            )
             return redirect(url_for("main.home"))
 
     return render_template("contact.html", form=form)
@@ -310,7 +318,7 @@ def change_name():
         flash("Successfully changed name", "success")
 
         # check if the user wants notifications (sends them automatically)
-        check_notification_type(current_user, "Username")
+        check_notification_type(current_user, "Profile Update", "Username")
         return redirect(url_for("main.profile"))
 
     return render_template("change_name.html", form=form)
@@ -333,7 +341,7 @@ def change_email():
                 # TODO let the user report if it is unauthorised
                 # check if the user wants notifications (sends them automatically)
                 # send the email before commiting the new one to the database
-                check_notification_type(current_user, "Email")
+                check_notification_type(current_user, "Profile Update", "Email")
 
                 db.session.commit()
                 flash("Successfully changed email", "success")
@@ -379,7 +387,7 @@ def change_password():
                     flash("Password successfully changed", "success")
 
                     # check if the user wants notifications (sends them automatically)
-                    check_notification_type(current_user, "Password")
+                    check_notification_type(current_user, "Profile Update", "Password")
                     return redirect(url_for("main.profile"))
 
                 # if the passwords aren't matching
