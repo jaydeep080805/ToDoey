@@ -5,11 +5,30 @@ from flask import current_app
 from sqlalchemy.orm import load_only
 from os import environ
 from datetime import date, timedelta
+from string import punctuation
 
 from .models import UserInformation
 from . import mail
 
 
+# =========== utility functions for the other functions =========== #
+# Get the current Flask app context
+def get_current_app_context():
+    return current_app._get_current_object()
+
+
+# Define a function to handle threading
+def run_in_thread(target_function, *args):
+    thread = Thread(target=target_function, args=args)
+    thread.start()
+
+    if thread:
+        return True
+    else:
+        return False
+
+
+# =========== TASK FUNCTIONS =========== #
 def get_filtered_tasks(tasks):
     # Calculate the start and end dates for the next 7 days (excluding today)
     today = date.today()
@@ -36,22 +55,19 @@ def get_filtered_tasks(tasks):
     return due_today_tasks, due_this_week, task_list
 
 
-# Define a function to handle threading
-def run_in_thread(target_function, *args):
-    thread = Thread(target=target_function, args=args)
-    thread.start()
-
-    if thread:
-        return True
-    else:
-        return False
-
-
-# Get the current Flask app context
-def get_current_app_context():
-    return current_app._get_current_object()
+# =========== EMAIL FUNCTIONS =========== #
+# Check if an email is valid, if it is, return the email; otherwise, return False
+def is_email_valid(form_email):
+    # Check if the email is unique in the database.
+    exists = (
+        UserInformation.query.filter_by(email=form_email)
+        .options(load_only(UserInformation.id))
+        .first()
+    )
+    return False if exists else form_email
 
 
+# =========== PASSWORD FUNCTIONS =========== #
 # Generate a hashed password
 def generate_hashed_password(password):
     # Generate a hashed password using PBKDF2 with SHA-256 and a salt length of 16.
@@ -64,17 +80,24 @@ def verify_password(hashed_password, password_from_form):
     return check_password_hash(hashed_password, password_from_form)
 
 
-# Check if an email is valid, if it is, return the email; otherwise, return False
-def is_email_valid(form_email):
-    # Check if the email is unique in the database.
-    exists = (
-        UserInformation.query.filter_by(email=form_email)
-        .options(load_only(UserInformation.id))
-        .first()
-    )
-    return False if exists else form_email
+def check_if_password_secure(password):
+    # too short
+    if len(password) < 8:
+        return "Password is too short."
+
+    # no uppercase chars
+    elif not any(char.isupper() for char in password):
+        return "Password should contain at least one uppercase letter."
+
+    # no special chars
+    elif not any(char in punctuation for char in password):
+        return "Password should contain at least one special character"
+
+    else:
+        return True
 
 
+# =========== DATABASE QUERY FUNCTIONS =========== #
 # Get a user's account by their email from the database
 def get_user_by_email_from_db(email):
     # Retrieve a user's account by their email from the database.
@@ -91,7 +114,9 @@ def get_user_by_id_from_db(id):
     return UserInformation.query.get(id)
 
 
+# =========== NOTIFICATION FUNCTIONS =========== #
 # Send a confirmation email to the recipient
+# used when the user uses the contact form
 def send_email_confirmation(recipient):
     app = get_current_app_context()
     with app.app_context():
@@ -106,6 +131,7 @@ def send_email_confirmation(recipient):
             current_app.logger.error(e)
 
 
+# send email to user about account changes
 def send_asyc_email(app, msg):
     # Flask-Mail needs to run within an application context,
     with app.app_context():
