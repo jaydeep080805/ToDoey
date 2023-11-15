@@ -4,7 +4,11 @@
 {% endblock %} {% block content %}
 <div class="profile-container">
   <div class="profile-info profile-picture-section">
-    <img src="{{ image_file }}" class="profile-picture" />
+    <img
+      src="{{ url_for('static', filename='images/' ~ image_file) }}"
+      class="profile-picture"
+      alt="Profile Picture"
+    />
     <a
       href="{{ url_for('main.change_pic') }}"
       class="btn change-info-button change-profile-pic-button"
@@ -14,7 +18,7 @@
 
   <div class="profile-divider">
     <h2>Personal Details</h2>
-    <hr/>
+    <hr />
   </div>
 
   <div class="profile-info">
@@ -32,7 +36,7 @@
   </div>
 
   <div class="profile-info">
-    <p class="profile-info-text" style="filter: blur(5px);">********</p>
+    <p class="profile-info-text" style="filter: blur(5px)">********</p>
     <a
       href="{{ url_for('main.change_password') }}"
       class="btn change-info-button"
@@ -42,7 +46,7 @@
 
   <div class="profile-divider">
     <h2>Tasks</h2>
-    <hr/>
+    <hr />
   </div>
 
   <div class="profile-info">
