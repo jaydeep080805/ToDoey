@@ -29,6 +29,35 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,400&family=Roboto&display=swap"
       rel="stylesheet"
     />
+
+    <!-- script to change colour -->
+    <script>
+      // Function to immediately apply the saved theme
+      function applySavedTheme() {
+        // ge the current active theme
+        const theme = localStorage.getItem("theme");
+        // check if the theme is true (there is a current theme)
+        if (theme) {
+          // set all the varibles that need changing to the active theme colour
+          document.documentElement.style.setProperty(
+            "--primary-color",
+            `var(--${theme})`
+          );
+          document.documentElement.style.setProperty(
+            "--hover-color",
+            `var(--${theme}-hover)`
+          );
+          document.documentElement.style.setProperty(
+            "--task-card-hover-color",
+            `var(--${theme}-task-card-hover)`
+          );
+        }
+      }
+
+      // Apply the theme as soon as possible
+      applySavedTheme();
+    </script>
+
     <title>ToDoey</title>
   </head>
 
