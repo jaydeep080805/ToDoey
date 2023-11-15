@@ -3,6 +3,46 @@
   /* Pink Color Definitions */
   --pink: #ff69b4; /* Main pink color */
   --pink-hover: #e04a95; /* Pink color on hover */
+  --pink-task-card-hover: rgb(
+    246,
+    84,
+    225
+  ); /* Task card background color on hover */
+
+  /* blue */
+  --blue: #4a90e0;
+  --blue-hover: #4a79e0;
+  --blue-task-card-hover: #4a79e0;
+
+  /* red */
+  --red: #ff4545;
+  --red-hover: #e04a4a;
+  --red-task-card-hover: #ff4f4f;
+
+  /* purple */
+  --purple: #9b69ff;
+  --purple-hover: #8957e0;
+  --purple-task-card-hover: #7c4ee0;
+
+  /* Teal */
+  --teal: #00bcd4;
+  --teal-hover: #0097a7;
+  --teal-task-card-hover: #00acc1;
+
+  /* orange */
+  --orange: #ff9800;
+  --orange-hover: #f57c00;
+  --orange-task-card-hover: #ffab00;
+
+  /* mint */
+  --mint: #00e676;
+  --mint-hover: #00c853;
+  --mint-task-card-hover: #00d676;
+
+  /* Generic Variables */
+  --primary-color: var(--pink);
+  --hover-color: var(--pink-hover);
+  --task-card-hover-color: var(--pink-task-card-hover);
 
   /* Grey Navbar Colors */
   --grey-navbar: #333; /* Background color of the navbar */
@@ -13,13 +53,6 @@
   --form-element-background: #444444; /* Background color of form elements */
   --form-background: #222; /* Background color of forms */
 
-  /* Task Card Hover Color */
-  --task-card-hover: rgb(
-    246,
-    84,
-    225
-  ); /* Task card background color on hover */
-
   /* Background Color */
   --background-col: #121212; /* Page background color */
 }
@@ -27,9 +60,9 @@
 /* Body Styles */
 body {
   background-color: var(--background-col);
-  color: var(--pink);
+  color: var(--primary-color);
   font-family: "Montserrat", sans-serif;
-  accent-color: var(--pink);
+  accent-color: var(--primary-color);
   margin: 0;
   padding: 0;
   display: flex;
@@ -53,7 +86,7 @@ body {
 /* flash success style */
 .success {
   background-color: rgba(255, 105, 180, 0.4);
-  border: 2px solid var(--pink);
+  border: 2px solid var(--primary-color);
 }
 
 /* flash error style */
@@ -88,7 +121,7 @@ body {
 .navbar-styling a {
   padding: 10px 15px;
   text-decoration: none;
-  color: var(--pink);
+  color: var(--primary-color);
   transition: background-color 0.6s;
 }
 
@@ -133,18 +166,18 @@ body {
   left: 0;
   width: 0;
   height: 2px; /* Adjust thickness of the line */
-  background: var(--pink); /* Color of the strikethrough */
+  background: var(--primary-color); /* Color of the strikethrough */
   animation: strikethrough 1s ease-in-out forwards;
 }
 
 /* Form Card Styles */
 .form-card {
-  border: solid 4px var(--pink);
+  border: solid 4px var(--primary-color);
   border-radius: 10px;
   border-style: double;
   background-color: var(--form-background);
   padding: 25px;
-  box-shadow: 5px 5px var(--pink);
+  box-shadow: 5px 5px var(--primary-color);
   margin-top: 10px;
   width: 50%;
   height: 100%;
@@ -182,15 +215,15 @@ body {
 
 /* Submit Button Styles */
 .submit-button {
-  background-color: var(--pink);
+  background-color: var(--primary-color);
   color: var(--form-text-col);
   margin: 0 auto;
   width: 50%;
 }
 
 .btn:hover {
-  background-color: var(--pink-hover);
-  color: #383838;
+  background-color: var(--hover-color);
+  color: #fdfdfd;
 }
 
 /* the form in change_password.html */
@@ -219,7 +252,7 @@ body {
 /* the text on the sign up and login forms that redirects you if you have an acc/need to make one */
 .form-text {
   font-size: 14px;
-  color: var(--pink);
+  color: var(--primary-color);
 }
 
 .master-task-container {
@@ -249,18 +282,18 @@ body {
 
 /* Task Card Styles */
 .task-card {
-  border: 2px solid var(--pink);
+  border: 2px solid var(--primary-color);
   border-radius: 4px;
   padding: 20px;
   transition: ease 0.3s;
 }
 
 .task-card:hover {
-  background-color: var(--task-card-hover);
+  background-color: var(--task-card-hover-color);
   color: white;
   border-color: white;
   transform: scale(1.04);
-  box-shadow: -5px -5px var(--pink);
+  box-shadow: -5px -5px var(--primary-color);
 }
 
 .task-label {
@@ -325,7 +358,58 @@ body {
 .profile-divider {
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  padding-top: 40px;
+  text-align: end;
+}
+
+.profile-divider:nth-last-child(1) {
+  margin-bottom: 30px;
+}
+
+.theme-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.theme {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+}
+
+.active-theme {
+  border: white 3px solid;
+}
+
+.blue {
+  background-color: var(--blue);
+}
+
+.red {
+  background-color: var(--red);
+}
+
+.pink {
+  background-color: var(--pink);
+}
+
+.purple {
+  background-color: var(--purple);
+}
+
+.teal {
+  background-color: var(--teal);
+}
+
+.orange {
+  background-color: var(--orange);
+}
+
+.mint {
+  background-color: var(--mint);
 }
 
 /* the button next to the user's info (change name, email, etc.) */
@@ -333,7 +417,7 @@ body {
   padding: 10px 20px; /* Adjust as needed */
   width: auto; /* This makes the button's width content-dependent */
   margin: 0px 10px;
-  background-color: var(--pink);
+  background-color: var(--primary-color);
 }
 
 /* the <i> tags inside the buttons on the user's profile */
@@ -442,7 +526,7 @@ footer {
   height: 10rem;
 }
 
-@media (min-width: 801px) and (max-width: 1200px) {
+@media (min-width: 801px) and (max-width: 1023px) {
   .flashes {
     width: 25%;
   }
@@ -500,7 +584,7 @@ footer {
 
   /* drop-down menu elements styling */
   .mobile-navbar a {
-    color: var(--pink);
+    color: var(--primary-color);
     display: block;
     padding: 5px 0;
   }
@@ -599,6 +683,11 @@ footer {
 
   .contact-message-box {
     height: 10rem;
+  }
+
+  .active-theme {
+    /* for some reason ios adds padding */
+    padding: 0px;
   }
 
   .footer-container {
