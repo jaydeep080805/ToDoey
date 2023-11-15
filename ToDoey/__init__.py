@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from os import environ, path
@@ -84,6 +84,9 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return UserInformation.query.get(int(user_id))
+        try:
+            return UserInformation.query.get(int(user_id))
+        except Exception as e:
+            current_app.logger.error(e)
 
     return app
