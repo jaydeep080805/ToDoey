@@ -4,9 +4,36 @@ from threading import Thread
 from flask import current_app
 from sqlalchemy.orm import load_only
 from os import environ
+from datetime import date, timedelta
 
 from .models import UserInformation
 from . import mail
+
+
+def get_filtered_tasks(tasks):
+    # Calculate the start and end dates for the next 7 days (excluding today)
+    today = date.today()
+    start_of_week = today + timedelta(days=1)  # Start from tomorrow
+    end_of_week = start_of_week + timedelta(days=6)
+
+    due_today_tasks = [
+        task for task in tasks if task.due_date == today and not task.completed
+    ]
+
+    due_this_week = [
+        task
+        for task in tasks
+        if task.due_date != today
+        and task.due_date >= start_of_week
+        and task.due_date <= end_of_week
+        and not task.completed
+    ]
+
+    task_list = [
+        task for task in tasks if task.due_date > end_of_week and not task.completed
+    ]
+
+    return due_today_tasks, due_this_week, task_list
 
 
 # Define a function to handle threading
@@ -144,6 +171,6 @@ def check_notification_type(recipient, change):
 
             elif text_notification:
                 print("text")
-            
+
     except Exception as e:
         current_app.logger.error(e)
