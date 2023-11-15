@@ -205,6 +205,7 @@ body {
   align-self: flex-end;
   color: var(--form-text-col);
   right: 10px;
+  margin-top: 2px;
 }
 
 #togglePassword:hover {
@@ -398,10 +399,10 @@ footer {
 }
 
 /* Styles for social links within the footer */
-.footer-col .social-links a {
+.footer-container .footer-col .social-links a {
   display: inline-block;
-  height: 40px; /* Height of the social link icons */
-  width: 40px; /* Width of the social link icons */
+  height: 45px; /* Height of the social link icons */
+  width: 45px; /* Width of the social link icons */
   background-color: rgba(
     255,
     255,
@@ -411,6 +412,7 @@ footer {
   margin: 0 10px 10px 0; /* Margin around the social link icons */
   text-align: center;
   line-height: 40px; /* Line height to vertically center the icon */
+  font-size: 1.4rem;
   border-radius: 50%; /* Rounded shape for the icons */
   color: #ffffff; /* Text color of the icons */
   transition: all 0.5s ease; /* Smooth transition effect on hover */
@@ -440,7 +442,7 @@ footer {
   height: 10rem;
 }
 
-@media (min-width: 801px) {
+@media (min-width: 801px) and (max-width: 1200px) {
   .flashes {
     width: 25%;
   }
@@ -449,7 +451,7 @@ footer {
     margin-bottom: 50px;
   }
 
-  .footer-col .social-links a {
+  .footer-container .footer-col .social-links a {
     width: 50px;
     height: 50px;
     line-height: 45px;
@@ -457,7 +459,7 @@ footer {
   }
 
   #togglePassword {
-    transform: translate(0, 3px);
+    margin-top: 2px;
   }
 }
 
@@ -614,7 +616,7 @@ footer {
     margin-top: 2.5rem;
   }
 
-  .footer-col .social-links a {
+  .footer-container .footer-col .social-links a {
     width: 60px; /* Adjust icon size for mobile */
     height: 60px;
     line-height: 55px;
