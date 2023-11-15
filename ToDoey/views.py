@@ -44,6 +44,7 @@ from .utils import (
     contact_email,
     run_in_thread,
     send_email_confirmation,
+    get_filtered_tasks,
 )
 
 
@@ -92,43 +93,10 @@ def home():
     except Exception as e:
         current_app.logger.error(f"Create Task error (Unknown): {e}")
 
-    # Calculate the start and end dates for the next 7 days (excluding today)
-    today = date.today()
-    start_of_week = today + timedelta(days=1)  # Start from tomorrow
-    end_of_week = start_of_week + timedelta(days=6)
-
-    due_today_tasks = []  # tasks that are due today
-    due_this_week = []  # tasks that are due this week (not including today)
-    task_list = []  # tasks that are due after the week
-
     if current_user.is_authenticated:
-        # get all the tasks associated with that user
-        tasks = current_user.tasks
-
-        # filter the tasks by due date
-        # tasks that are due this week
-        due_this_week = [
-            task
-            for task in tasks
-            if task.due_date != today
-            and task.due_date >= start_of_week
-            and task.due_date <= end_of_week
-            and task.completed
-            != True  # if the task isn't completed and is due this week, NOT due today
-        ]
-        # tasks due today
-        due_today_tasks = [
-            task
-            for task in tasks
-            if task.due_date == today
-            and task.completed != True  # if the task isn't completed and IS due today
-        ]
-        # tasks due ofter this week
-        task_list = [
-            task
-            for task in tasks
-            if task.due_date > end_of_week and task.completed != True
-        ]
+        due_today_tasks, due_this_week, task_list = get_filtered_tasks(
+            current_user.tasks
+        )
 
     return render_template(
         "index.html",
@@ -143,6 +111,7 @@ def home():
 def update_task():
     # get the data from the ajax post
     data = request.get_json()
+
     if data:
         # get the task id from the ajax req
         task_id = data.get("task_id")
@@ -153,7 +122,24 @@ def update_task():
             task_to_update.completed = True
             task_to_update.date_completed = date.today()
             db.session.commit()
-            return jsonify({"status": "success"}), 200
+
+            # get the current task lists
+            due_today_tasks, due_this_week, task_list = get_filtered_tasks(
+                current_user.tasks
+            )
+
+            # send the length of the lists back to js
+            return (
+                jsonify(
+                    {
+                        "status": "success",
+                        "due_today_tasks": len(due_today_tasks),
+                        "due_this_week_tasks": len(due_this_week),
+                        "task_list_tasks": len(task_list),
+                    }
+                ),
+                200,
+            )
 
         except Exception as e:
             current_app.logger.error(f"Task update error (Unknown): {e}")
