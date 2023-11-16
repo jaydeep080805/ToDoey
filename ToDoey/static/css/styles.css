@@ -3,46 +3,51 @@
   /* Pink Color Definitions */
   --pink: #ff69b4; /* Main pink color */
   --pink-hover: #e04a95; /* Pink color on hover */
-  --pink-task-card-hover: rgb(
-    246,
-    84,
-    225
-  ); /* Task card background color on hover */
+  --pink-task-card-hover: #f654e1; /* Task card background color on hover */
+  --pink-flash: rgba(255, 105, 180, 0.4);
 
   /* blue */
   --blue: #4a90e0;
   --blue-hover: #4a79e0;
   --blue-task-card-hover: #4a79e0;
+  --blue-flash: rgba(72, 143, 224, 0.4);
 
   /* red */
   --red: #ff4545;
   --red-hover: #e04a4a;
   --red-task-card-hover: #ff4f4f;
+  --red-flash: rgba(255, 69, 69, 0.4);
 
   /* purple */
   --purple: #9b69ff;
   --purple-hover: #8957e0;
   --purple-task-card-hover: #7c4ee0;
+  --purple-flash: rgba(155, 105, 255, 0.4);
 
   /* Teal */
   --teal: #00bcd4;
   --teal-hover: #0097a7;
   --teal-task-card-hover: #00acc1;
+  --teal-flash: rgba(0, 188, 212, 0.4);
 
   /* orange */
   --orange: #ff9800;
   --orange-hover: #f57c00;
   --orange-task-card-hover: #ffab00;
+  --orange-flash: rgba(255, 152, 0, 0.4);
 
   /* mint */
   --mint: #00e676;
   --mint-hover: #00c853;
   --mint-task-card-hover: #00d676;
+  --mint-flash: rgba(0, 230, 118, 0.4);
 
   /* Generic Variables */
   --primary-color: var(--pink);
   --hover-color: var(--pink-hover);
   --task-card-hover-color: var(--pink-task-card-hover);
+  --primary-success-flash-colour: var(--pink-flash);
+  --primary-error-flash-colour: rgba(255, 0, 0, 0.4);
 
   /* Grey Navbar Colors */
   --grey-navbar: #333; /* Background color of the navbar */
@@ -85,13 +90,13 @@ body {
 
 /* flash success style */
 .success {
-  background-color: rgba(255, 105, 180, 0.4);
+  background-color: var(--primary-success-flash-colour);
   border: 2px solid var(--primary-color);
 }
 
 /* flash error style */
 .error {
-  background-color: rgba(255, 0, 0, 0.4);
+  background-color: var(--primary-error-flash-colour);
   border: 2px solid red;
 }
 
