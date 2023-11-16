@@ -56,6 +56,7 @@ $(document).ready(function () {
                 due_today_tasks: "#due-today-heading",
                 due_this_week_tasks: "#due-this-week-heading",
                 task_list_tasks: "#due-later-heading",
+                overdue_tasks: "#overdue-heading",
               };
 
               // Loop over each task list in the mapping
@@ -149,6 +150,9 @@ $(document).ready(function () {
   }
   showMobileNavBar();
 
+  // Selecting all elements with the 'theme' class for event handling
+  var themes = $(".theme");
+
   // Function to switch the website theme
   function switchTheme(theme) {
     // Update CSS variables to reflect the chosen theme
@@ -164,9 +168,17 @@ $(document).ready(function () {
       "--task-card-hover-color",
       `var(--${theme}-task-card-hover)`
     );
+    document.documentElement.style.setProperty(
+      "--primary-success-flash-colour",
+      `var(--${theme}-flash)`
+    );
 
     // Save the theme to Local Storage for persistence
     localStorage.setItem("theme", theme);
+
+    // Remove 'active-theme' class from all theme buttons and set it to the current one
+    themes.removeClass("active-theme");
+    $(`.theme[data-theme="${theme}"]`).addClass("active-theme");
   }
 
   // Attempt to retrieve and apply the saved theme when the page loads
@@ -175,18 +187,11 @@ $(document).ready(function () {
     switchTheme(savedTheme);
   }
 
-  // Selecting all elements with the 'theme' class for event handling
-  var themes = $(".theme");
-
   // Event handler for theme buttons
   themes.on("click", function () {
     // Retrieve the theme data attribute from the clicked button
     var theme = $(this).data("theme");
     // Apply the selected theme
     switchTheme(theme);
-
-    // Remove 'active-theme' class from all theme buttons and set it to the current one
-    themes.removeClass("active-theme");
-    $(this).addClass("active-theme");
   });
 });
