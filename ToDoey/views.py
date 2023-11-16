@@ -92,21 +92,26 @@ def home():
     except Exception as e:
         current_app.logger.error(f"Create Task error (Unknown): {e}")
 
+    overdue_tasks = []
     due_today_tasks = []
     due_this_week = []
     task_list = []
 
     if current_user.is_authenticated:
         try:
-            due_today_tasks, due_this_week, task_list = get_filtered_tasks(
-                current_user.tasks
-            )
+            (
+                overdue_tasks,
+                due_today_tasks,
+                due_this_week,
+                task_list,
+            ) = get_filtered_tasks(current_user.tasks)
         except Exception as e:
             current_app.logger.error(e)
 
     return render_template(
         "index.html",
         form=form,
+        overdue_tasks=overdue_tasks,
         due_this_week=due_this_week,
         due_today_tasks=due_today_tasks,
         task_list=task_list,
@@ -130,15 +135,19 @@ def update_task():
             db.session.commit()
 
             # get the current task lists
-            due_today_tasks, due_this_week, task_list = get_filtered_tasks(
-                current_user.tasks
-            )
+            (
+                overdue_tasks,
+                due_today_tasks,
+                due_this_week,
+                task_list,
+            ) = get_filtered_tasks(current_user.tasks)
 
             # send the length of the lists back to js
             return (
                 jsonify(
                     {
                         "status": "success",
+                        "overdue_tasks": len(overdue_tasks),
                         "due_today_tasks": len(due_today_tasks),
                         "due_this_week_tasks": len(due_this_week),
                         "task_list_tasks": len(task_list),
