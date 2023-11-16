@@ -35,6 +35,10 @@ def get_filtered_tasks(tasks):
     start_of_week = today + timedelta(days=1)  # Start from tomorrow
     end_of_week = start_of_week + timedelta(days=6)
 
+    overdue_tasks = [
+        task for task in tasks if task.due_date < today and not task.completed
+    ]
+
     due_today_tasks = [
         task for task in tasks if task.due_date == today and not task.completed
     ]
@@ -52,7 +56,7 @@ def get_filtered_tasks(tasks):
         task for task in tasks if task.due_date > end_of_week and not task.completed
     ]
 
-    return due_today_tasks, due_this_week, task_list
+    return overdue_tasks, due_today_tasks, due_this_week, task_list
 
 
 # =========== EMAIL FUNCTIONS =========== #
