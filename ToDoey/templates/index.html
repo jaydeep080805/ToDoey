@@ -27,6 +27,24 @@
 
 <div class="master-task-container">
   <h1 class="task-list-heading">Task List:</h1>
+  {% if overdue_tasks %}
+  <h1 class="task-list-heading" id="overdue-heading">Overdue tasks:</h1>
+  <div class="task-list-container">
+    {% for task in overdue_tasks %}
+    <div class="task-card">
+      <input
+        type="checkbox"
+        name="checkbox-for-tasks"
+        class="task-checkbox"
+        data-id="{{ task.id }}"
+      />
+      <label for="task-checkbox">{{task.task}}</label>
+      <!-- <p>{{task.category}}</p> -->
+      <p class="task-label">Due: <em>{{task.due_date}}</em></p>
+    </div>
+    {% endfor %} {% endif %}
+  </div>
+
   {% if due_today_tasks %}
   <h1 class="task-list-heading" id="due-today-heading">Due Today:</h1>
   <div class="task-list-container">
