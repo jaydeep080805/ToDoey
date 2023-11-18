@@ -86,6 +86,7 @@ body {
   min-width: 250px;
   border-radius: 5px;
   color: white;
+  text-align: center;
 }
 
 /* flash success style */
@@ -531,7 +532,7 @@ footer {
   height: 10rem;
 }
 
-@media (min-width: 801px) and (max-width: 1023px) {
+@media only screen and (min-width: 801px) and (max-width: 1200px) {
   .flashes {
     width: 25%;
   }
@@ -548,12 +549,13 @@ footer {
   }
 
   #togglePassword {
-    margin-top: 2px;
+    font-size: 1.4rem;
+    transform: translate(0, -4px);
   }
 }
 
 /* mobile media query */
-@media (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   body {
     font-size: 20px; /* Increase base font size for readability on mobile */
   }
@@ -684,6 +686,10 @@ footer {
 
   .form-element-styling {
     font-size: 1rem;
+  }
+
+  #togglePassword {
+    transform: translate(0, -5px);
   }
 
   .contact-message-box {
