@@ -43,7 +43,7 @@ EMAIL_PASSWORD=<your_email_password>
 ```
 flask run
 ```
-2. Open a web browser and navigate to http://127.0.0.1:5000/ to use the application.
+2. Open a web browser and navigate to http://localhost:5000/ to use the application.
 
 ## Contributing
 ###### Contributions to ToDoey are welcome! Please follow the standard fork-clone-branch-pull request workflow.
