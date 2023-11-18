@@ -31,6 +31,8 @@ from .forms import (
     ChangeProfilePic,
     NotificationsForm,
     ContactForm,
+    AddNumberForm,
+    ChangeNumberForm,
 )
 from .models import UserInformation, TaskDataBase
 from . import db
@@ -464,6 +466,34 @@ def change_pic():
             flash("No file selected", "error")
 
     return render_template("change_pic.html", form=form)
+
+
+@main.route("/change_number", methods=["GET", "POST"])
+def change_number():
+    if current_user.phone_number == None:
+        form = AddNumberForm()
+        form_type = "add"
+    else:
+        form = ChangeNumberForm()
+        form_type = "change"
+
+    if form.validate_on_submit():
+        if form_type == "add":
+            current_user.phone_number = f"44{(form.number.data).strip('0')}"
+            db.session.commit()
+            flash("Number Successfully Added", "success")
+            return redirect(url_for("main.profile"))
+
+        else:
+            print(form.current_number.data)
+            print(form.new_number.data)
+
+    else:
+        for fieldName, errorMessages in form.errors.items():
+            for err in errorMessages:
+                flash(err, "error")
+
+    return render_template("change_number.html", form=form, form_type=form_type)
 
 
 @main.route("/completed-tasks")
