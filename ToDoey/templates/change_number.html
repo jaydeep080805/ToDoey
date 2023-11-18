@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %} {% if form_type == "add" %}
+<div class="form-card">
+  <form class="form-container" method="post">
+    {{ form.hidden_tag() }} {{ form.number.label }} {{
+    form.number(class_="form-element-styling", type="tel") }}
+    {{form.submit(class_="submit-button btn") }}
+  </form>
+</div>
+{% elif form_type == "change" %}
+<div class="form-card">
+  <form class="form-container" method="post">
+    {{ form.hidden_tag() }} {{ form.current_number.label }} {{
+    form.new_number(class_="form-element-styling", type="tel") }} {{
+    form.new_number.label }} {{ form.new_number(class_="form-element-styling")
+    }} {{ form.submit(class_="submit-button btn") }}
+  </form>
+</div>
+<!-- Render ChangeNumberForm here -->
+<!-- Similar structure to AddNumberForm -->
+{% endif %} {% endblock %}
