@@ -10,7 +10,7 @@ from wtforms import (
     RadioField,
     BooleanField,
 )
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Regexp
 from flask_ckeditor import CKEditorField
 
 
@@ -68,14 +68,44 @@ class NotificationsForm(FlaskForm):
     want_notifications = RadioField(
         "Notifications", choices=[("yes", "Yes"), ("no", "No")]
     )
-    notification_email = BooleanField("email")
-    notification_text = BooleanField("text")
+    notification_email = BooleanField("Email")
+    notification_text = BooleanField("Text")
     submit = SubmitField("Save Changes")
 
 
 class ContactForm(FlaskForm):
-    name = StringField("name", validators=[DataRequired()])
-    email = EmailField("email", validators=[DataRequired()])
-    subject = StringField("subject", validators=[DataRequired()])
-    message = CKEditorField("message", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired()])
+    email = EmailField("Email", validators=[DataRequired()])
+    subject = StringField("Subject", validators=[DataRequired()])
+    message = CKEditorField("Message", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+
+class AddNumberForm(FlaskForm):
+    number = StringField(
+        "New Number",
+        validators=[
+            DataRequired(),
+            Regexp(
+                # UK phone numbers, excluding country code, are usually 10 or 11 digits.
+                r"^0\d{10,11}$",
+                message="Phone number must be a valid UK number without country code.",
+            ),
+        ],
+    )
+    submit = SubmitField("Submit")
+
+
+class ChangeNumberForm(FlaskForm):
+    current_number = StringField(
+        "Current Number",
+        validators=[
+            DataRequired(),
+            Regexp(
+                r"^0\d{10,11}$",
+                message="Phone number must be a valid UK number without country code.",
+            ),
+        ],
+    )
+    new_number = StringField("New Number", validators=[DataRequired()])
     submit = SubmitField("Submit")
