@@ -44,6 +44,14 @@
     >
   </div>
 
+  <div class="profile-info">
+    <p class="profile-info-text">{{ user_info.phone_number }}</p>
+    <a href="{{ url_for('main.change_number') }}" class="btn change-info-button"
+      ><i class="bi bi-telephone button-icon"></i>{% if user_info.phone_number
+      == None %}Add Number {% else %}Change Number {% endif %}</a
+    >
+  </div>
+
   <div class="profile-divider">
     <h2>Tasks</h2>
     <hr />
