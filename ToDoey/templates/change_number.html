@@ -10,7 +10,7 @@
 <div class="form-card">
   <form class="form-container" method="post">
     {{ form.hidden_tag() }} {{ form.current_number.label }} {{
-    form.new_number(class_="form-element-styling", type="tel") }} {{
+    form.current_number(class_="form-element-styling", type="tel") }} {{
     form.new_number.label }} {{ form.new_number(class_="form-element-styling")
     }} {{ form.submit(class_="submit-button btn") }}
   </form>
