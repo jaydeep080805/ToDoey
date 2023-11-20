@@ -87,6 +87,7 @@ body {
   border-radius: 5px;
   color: white;
   text-align: center;
+  text-transform: capitalize;
 }
 
 /* flash success style */
@@ -317,6 +318,10 @@ body {
   justify-content: space-evenly;
   align-items: flex-end;
   gap: 10px;
+}
+
+.profile-info p {
+  color: white;
 }
 
 /* Profile Picture Styles */
