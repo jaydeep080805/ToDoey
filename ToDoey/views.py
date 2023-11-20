@@ -479,14 +479,22 @@ def change_number():
 
     if form.validate_on_submit():
         if form_type == "add":
-            current_user.phone_number = f"44{(form.number.data).strip('0')}"
+            # make sure the number is saved as an int not a string
+            current_user.phone_number = int(f"44{(form.number.data).strip('0')}")
             db.session.commit()
             flash("Number Successfully Added", "success")
             return redirect(url_for("main.profile"))
 
         else:
-            print(form.current_number.data)
-            print(form.new_number.data)
+            # make sure the number is saved as an int not a string
+            current_number = int(f"44{(form.current_number.data).strip('0')}")
+
+            if current_user.phone_number == current_number:
+                current_user.phone_number = int(
+                    f"44{(form.new_number.data).strip('0')}"
+                )
+                flash("Number Successfully Changed", "success")
+                return redirect(url_for("main.profile"))
 
     else:
         for fieldName, errorMessages in form.errors.items():
